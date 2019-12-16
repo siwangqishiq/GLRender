@@ -66,7 +66,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
      */
     public void setRefreshColor(int refreshColor){
         mRefreshColor = OpenglEsUtils.convertColor(refreshColor);
-        refreshView();
+        //refreshView();
     }
 
     @Override

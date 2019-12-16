@@ -1,7 +1,12 @@
 package com.xinlan.yokirender.core;
 
+import com.xinlan.yokirender.primitive.IRender;
+
+import java.util.ArrayList;
+
 public class YokiCanvasImpl implements YokiCanvas {
     private YokiPaint mDefaultPaint;
+    private ArrayList<IRender> mRenderList = new ArrayList<IRender>(64);
 
     public YokiCanvasImpl(YokiPaint paint){
         mDefaultPaint = paint;
@@ -12,7 +17,8 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     public void render(){
-
+        //1 .视景体的剔除
+        // 2. render
     }
 
     @Override

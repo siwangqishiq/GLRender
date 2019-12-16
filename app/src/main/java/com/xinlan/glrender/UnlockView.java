@@ -30,22 +30,37 @@ public class UnlockView extends YokiView {
         boolean ret = super.onTouchEvent(event);
         float x = event.getX();
         float y = event.getY();
+
+        int r, g , b = 255;
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 ret = true;
-                break;
+                System.out.println("down = " + x +"    " +y);
             case MotionEvent.ACTION_MOVE:
+                System.out.println("move" + x +"    " +y);
+                if(x >= 0){
+                    r =(int) ((x / getWidth()) * 255);
+                }else{
+                    r = 0;
+                }
+                if(y >= 0){
+                    g =(int) ((y / getHeight()) * 255);
+                }else{
+                    g = 0;
+                }
 
+                int bgColor = Color.rgb(r, g , b);
+                setRefreshColor(bgColor);
+                refreshView();
                 break;
             case MotionEvent.ACTION_UP:
                 break;
         }
-
         return ret;
     }
 
     @Override
     public void onRender(YokiCanvas canvas) {
-
+        //canvas.drawPoint(100,100 , );
     }
 }
