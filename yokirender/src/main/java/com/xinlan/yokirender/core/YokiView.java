@@ -5,6 +5,7 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.xinlan.yokirender.core.math.Vec4;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -72,6 +73,17 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         System.out.println("onSurfaceCreated");
+
+
+        Camera camera = new Camera(100, 100, 200, 200);
+
+        float m[] = camera.cameraMatrix();
+        float[] v1 = {50, 50, 0, 0};
+        v1 = Camera.multiVec(v1 , m);
+        for(int i = 0 ; i < v1.length ; i++){
+            System.out.print(v1[i] +"   ");
+        }
+        System.out.println();
     }
 
     @Override
@@ -86,6 +98,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onDrawFrame(GL10 gl) {
         System.out.println("onDrawFrame");
+        mRender.clearAllRender();
+
         GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 

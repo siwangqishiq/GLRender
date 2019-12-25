@@ -1,6 +1,7 @@
 package com.xinlan.yokirender.core;
 
 import com.xinlan.yokirender.primitive.IRender;
+import com.xinlan.yokirender.primitive.Point;
 
 import java.util.ArrayList;
 
@@ -8,22 +9,42 @@ public class YokiCanvasImpl implements YokiCanvas {
     private YokiPaint mDefaultPaint;
     private ArrayList<IRender> mRenderList = new ArrayList<IRender>(64);
 
-    public YokiCanvasImpl(YokiPaint paint){
+    private boolean needClip = false;
+
+    public YokiCanvasImpl(YokiPaint paint) {
         mDefaultPaint = paint;
     }
 
-    public void onInitSurface(int w , int h){
+    public void primitiveInit(){
 
     }
 
-    public void render(){
+    public void onInitSurface(int w, int h) {
+
+    }
+
+    public void clearAllRender() {
+        mRenderList.clear();
+    }
+
+    public void render() {
         //1 .视景体的剔除
+        if (needClip) {
+
+        }
+
         // 2. render
+        for (int i = 0, len = mRenderList.size(); i < len; i++) {
+            IRender renderObj = mRenderList.get(i);
+            renderObj.render();
+        }//end for i
     }
 
     @Override
     public void drawPoint(float x, float y, YokiPaint paint) {
+        Point p = Point.obtain();
 
+        mRenderList.add(p);
     }
 
     @Override

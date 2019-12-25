@@ -1,5 +1,7 @@
 package com.xinlan.yokirender;
 
+import com.xinlan.yokirender.core.Camera;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

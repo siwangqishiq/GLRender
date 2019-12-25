@@ -1,4 +1,4 @@
-package com.xinlan.yokirender.core;
+package com.xinlan.yokirender.core.math;
 
 public final class Vec3 {
     public float x;
