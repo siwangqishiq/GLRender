@@ -401,12 +401,6 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 
     }
 
-    /**
-     * Copies the matrix values in the specified column into the array
-     * parameter.
-     * @param column  the matrix column
-     * @param v    the array into which the matrix row values will be copied
-     */
     public final void getColumn(int column, float v[]) {
         if( column == 0 ) {
            v[0] = m00;
@@ -425,13 +419,6 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
         }
     }
 
-    /**
-     * Retrieves the value at the specified row and column of this
-     * matrix.
-     * @param row the row number to be retrieved (zero indexed)
-     * @param column the column number to be retrieved (zero indexed)
-     * @return the value at the indexed element.
-     */
     public final float getElement(int row, int column)
     {
 	switch (row)

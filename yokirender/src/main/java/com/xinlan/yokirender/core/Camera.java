@@ -1,5 +1,7 @@
 package com.xinlan.yokirender.core;
 
+import com.xinlan.yokirender.core.math.Matrix3f;
+
 /**
  * 虚拟摄像机  记录观察点的位置
  * 以此确定视口
@@ -15,20 +17,12 @@ public class Camera {
     public float viewWidth;
     private float viewHeight;
 
-//    private float transformMatrix[] = new float[4 * 4]; //齐次平移矩阵
-//    private float scaleMatrix[] = new float[4 * 4]; //缩放矩阵
-//    //private float screenMatrix[] = new float[4*4]; //标准坐标向屏幕坐标转换
-//
-//    private float mMatrix[] = new float[4 * 4];
-
+    private Matrix3f mMatrix = new Matrix3f();
     private float[] result = new float[2];
 
     public Camera(float x, float y, float width, float height) {
         this.viewWidth = width;
         this.viewHeight = height;
-
-//        this.x = x  -viewWidth / 2;
-//        this.y = y -viewHeight / 2;
         this.x = x;
         this.y = y;
         reset();
@@ -49,7 +43,27 @@ public class Camera {
 
 
     private void reset() {
+        mMatrix.setIdentity();
 
+        mMatrix.m00 = 2 / viewWidth;
+        mMatrix.m01 = 0f;
+        mMatrix.m02 = 0f;
+
+        mMatrix.m10 = 0f;
+        mMatrix.m11 = 2/ viewHeight;
+        mMatrix.m12 = 0f;
+
+        mMatrix.m20 = (-2*x) / viewWidth - 1;
+        mMatrix.m21 = (-2 * y) / viewHeight - 1;
+        mMatrix.m22 = 0;
+    }
+
+    /**
+     *  获得转换变化矩阵
+     * @return
+     */
+    public Matrix3f getMatrix(){
+        return mMatrix;
     }
 
     public float[] worldToScreen(float _x ,float _y){

@@ -6,6 +6,9 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.core.math.Vector2f;
+import com.xinlan.yokirender.core.math.Vector3f;
 import com.xinlan.yokirender.core.math.Vector4f;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
@@ -75,17 +78,13 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         System.out.println("onSurfaceCreated");
 
-        float[] transM1 = new float[9];
+//        Camera camera = new Camera(100, 100, 200, 200);
+//        Vector3f v1 = new Vector3f(100,100 , 1);
+//        Matrix3f matrix = camera.getMatrix();
+//        v1.multiMatrix(matrix);
+//        System.out.println("result = " + v1.x +"   " + v1.y +"   " + v1.z);
 
-
-
-        Camera camera = new Camera(100, 100, 200, 200);
-
-        float m[] = camera.worldToScreen(200,200);
-        for(int i = 0 ; i < m.length ; i++){
-            System.out.print(m[i] +"   ");
-        }
-        System.out.println();
+        mRender.initEngine();
     }
 
     @Override
