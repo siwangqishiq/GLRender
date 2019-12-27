@@ -1,11 +1,12 @@
 package com.xinlan.yokirender.core;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
-import com.xinlan.yokirender.core.math.Vec4;
+import com.xinlan.yokirender.core.math.Vector4f;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -18,7 +19,7 @@ import javax.microedition.khronos.opengles.GL10;
 public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context mContext;
 
-    private Vec4 mRefreshColor = new Vec4();
+    private Vector4f mRefreshColor = new Vector4f();
 
     private YokiPaint mDefaultPaint;
     private YokiCanvasImpl mRender;
@@ -74,14 +75,15 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         System.out.println("onSurfaceCreated");
 
+        float[] transM1 = new float[9];
+
+
 
         Camera camera = new Camera(100, 100, 200, 200);
 
-        float m[] = camera.cameraMatrix();
-        float[] v1 = {50, 50, 0, 0};
-        v1 = Camera.multiVec(v1 , m);
-        for(int i = 0 ; i < v1.length ; i++){
-            System.out.print(v1[i] +"   ");
+        float m[] = camera.worldToScreen(200,200);
+        for(int i = 0 ; i < m.length ; i++){
+            System.out.print(m[i] +"   ");
         }
         System.out.println();
     }

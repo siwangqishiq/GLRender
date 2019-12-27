@@ -3,7 +3,8 @@ package com.xinlan.yokirender.util;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.xinlan.yokirender.core.math.Vec4;
+import com.xinlan.yokirender.core.math.Vector4d;
+import com.xinlan.yokirender.core.math.Vector4f;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -43,14 +44,14 @@ public class OpenglEsUtils {
         return bb;
     }
 
-    public static Vec4 convertColor(int color){
+    public static Vector4f convertColor(int color){
         int r = Color.red(color);
         int g = Color.green(color);
         int b = Color.blue(color);
         int a = Color.alpha(color);
 
         float[]  cs = convertColor(r , g , b , a);
-        return new Vec4(cs);
+        return new Vector4f(cs);
     }
 
     public static float[] convertColor(float r, float g, float b, int a) {

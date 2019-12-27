@@ -1,6 +1,6 @@
 package com.xinlan.yokirender.primitive;
 
-import com.xinlan.yokirender.core.math.Vec3;
+import com.xinlan.yokirender.core.math.Vector2f;
 
 /**
  * 绘制点图元
@@ -12,7 +12,7 @@ public class Point extends BPrimitive {
     }
 
     //颜色
-    public Vec3 color;
+    public Vector2f color;
 
     public Point(){
 
