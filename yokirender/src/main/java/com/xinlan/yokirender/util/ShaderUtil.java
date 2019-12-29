@@ -36,7 +36,7 @@ import static android.opengl.GLES20.glShaderSource;
 import static android.opengl.GLUtils.texImage2D;
 
 public class ShaderUtil {
-    public static final String TAG = "Yoki3D ShaderUtils";
+    public static final String TAG = "Yoki ShaderUtils";
 
     public static final int NO_TEXTURE_ID = -1;
 

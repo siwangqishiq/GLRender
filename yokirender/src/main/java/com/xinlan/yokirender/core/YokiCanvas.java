@@ -51,4 +51,6 @@ public interface YokiCanvas {
     void transform(float deltaX , float deltaY);
 
     void restore();
+
+    Camera getCamera();
 }

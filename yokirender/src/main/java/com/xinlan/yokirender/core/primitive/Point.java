@@ -1,15 +1,11 @@
 package com.xinlan.yokirender.core.primitive;
 
-import android.opengl.GLES30;
-
 import com.xinlan.yokirender.core.math.Color4f;
-import com.xinlan.yokirender.util.OpenglEsUtils;
-import com.xinlan.yokirender.util.ShaderUtil;
 
 /**
  * 绘制点图元
  */
-public class Point extends BPrimitive {
+public class Point extends BasePrimitive {
 
     public static Point obtain(){
         return new Point();

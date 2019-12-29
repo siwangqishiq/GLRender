@@ -1,5 +1,6 @@
 package com.xinlan.yokirender.core;
 
+import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.primitive.IRender;
 import com.xinlan.yokirender.core.primitive.Point;
 
@@ -12,9 +13,12 @@ public class YokiCanvasImpl implements YokiCanvas {
     private Camera mCamera;
     private boolean mCull = false; //是否需要视景体剔除
 
+    private CmdPool mCmdPool;
+
 
     public YokiCanvasImpl(YokiPaint paint) {
         mDefaultPaint = paint;
+        mCmdPool = new CmdPool();
         if (mDefaultPaint == null) {
             mDefaultPaint = new YokiPaint();
         }
@@ -25,13 +29,11 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     public void primitiveInit() {
-
+        mCmdPool.initCmds();
     }
 
     public void onInitSurface(int w, int h) {
         mCamera = new Camera(0, 0, w, h);
-
-
     }
 
     public void clearAllRender() {
@@ -47,15 +49,15 @@ public class YokiCanvasImpl implements YokiCanvas {
         // 2. render
         for (int i = 0, len = mRenderList.size(); i < len; i++) {
             IRender renderObj = mRenderList.get(i);
-            renderObj.render();
+            renderObj.render(mCamera.getMatrix());
             renderObj.reset();
         }//end for i
     }
 
     @Override
     public void drawPoint(float x, float y, YokiPaint paint) {
-
-        //mRenderList.add();
+        PointCmd pointCmd = mCmdPool.obtainPointCmd();
+        mRenderList.add(pointCmd);
     }
 
     @Override
@@ -96,5 +98,10 @@ public class YokiCanvasImpl implements YokiCanvas {
     @Override
     public void restore() {
 
+    }
+
+    @Override
+    public Camera getCamera() {
+        return mCamera;
     }
 }//end class

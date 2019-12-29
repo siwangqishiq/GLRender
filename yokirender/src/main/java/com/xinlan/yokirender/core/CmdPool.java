@@ -22,15 +22,17 @@ public class CmdPool {
     }
 
     public void initCmds(){
-        initPointCmds();
+        initPointCmds(INIT_SIZE);
     }
 
-    private void initPointCmds() {
+    private void initPointCmds(int initSize) {
         pointINextIndex = 0;
-
+        for(int i = 0 ; i < initSize;i++) {
+            pointsPool.add(new PointCmd());
+        }//end for i
     }
 
-    public PointCmd obtainPointCmd(float x , float y , YokiPaint paint){
+    public PointCmd obtainPointCmd(){
         PointCmd cmd = null;
         int startIndex = pointINextIndex;
         do{
@@ -46,10 +48,9 @@ public class CmdPool {
             }
         }while (pointINextIndex != startIndex);
 
-        if(cmd != null){
-
-        }else {
-
+        if(cmd == null){
+            cmd = new PointCmd();
+            pointsPool.add(cmd);
         }
         return cmd;
     }
