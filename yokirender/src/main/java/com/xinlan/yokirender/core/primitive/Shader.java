@@ -2,6 +2,7 @@ package com.xinlan.yokirender.core.primitive;
 
 import android.text.TextUtils;
 
+import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 import com.xinlan.yokirender.util.ShaderUtil;
 
@@ -28,10 +29,11 @@ public class Shader {
     }
 
     private Shader(){
+        initShader();
     }
 
     private void initShader(){
-
+        loadShader(PointCmd.RENDER_POINT , PointCmd.vertexShaderSrc() , PointCmd.fragShaderSrc());
     }
 
     /**
