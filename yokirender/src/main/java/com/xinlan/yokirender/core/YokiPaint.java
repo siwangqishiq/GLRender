@@ -14,8 +14,8 @@ public class YokiPaint {
 
    public Color4f color = new Color4f(0 , 0 ,0 ,0);
     public Style style = Style.LINE;
-    public int lineWidth = 1;
-    public int pointSize = 1;
+    public float lineWidth = 1;
+    public float size = 1;
 
     public YokiPaint() {
     }

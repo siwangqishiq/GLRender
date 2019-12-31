@@ -10,6 +10,7 @@ import com.xinlan.yokirender.core.math.Matrix3f;
 import com.xinlan.yokirender.core.math.Vector2f;
 import com.xinlan.yokirender.core.math.Vector3f;
 import com.xinlan.yokirender.core.math.Vector4f;
+import com.xinlan.yokirender.core.primitive.ShaderManager;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -37,16 +38,25 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         init(context);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        System.out.println("onDetachedFromWindow ");
+        ShaderManager.ctx = null;
+    }
+
     protected void init(Context context){
         mContext = context;
+        ShaderManager.ctx = context;
 
         setEGLContextClientVersion(3);
-        setEGLConfigChooser(8, 8, 8, 8, 8, 0);
+        setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
         //requestRender();
 
         setRenderer(this);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
+        //setRenderMode(RENDERMODE_CONTINUOUSLY);
 
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
@@ -77,13 +87,6 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         System.out.println("onSurfaceCreated");
-
-//        Camera camera = new Camera(100, 100, 200, 200);
-//        Vector3f v1 = new Vector3f(100,100 , 1);
-//        Matrix3f matrix = camera.getMatrix();
-//        v1.multiMatrix(matrix);
-//        System.out.println("result = " + v1.x +"   " + v1.y +"   " + v1.z);
-
         mRender.initEngine();
     }
 
@@ -91,7 +94,6 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         System.out.println("onSurfaceChanged width = " + width +"  height = " + height);
         GLES30.glViewport(0, 0, width, height);
-
         mRender.onInitSurface(width , height);
         onInit(width , height);
     }
@@ -101,12 +103,16 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         System.out.println("onDrawFrame");
         mRender.clearAllRender();
 
+        long t1 = System.currentTimeMillis();
         GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         onRender(mRender);
 
         mRender.render();
+
+        long t2 = System.currentTimeMillis();
+        System.out.println("render a frame time = " + (t2  - t1));
     }
 
 

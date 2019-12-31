@@ -43,8 +43,7 @@ public class Camera {
 
 
     private void reset() {
-        mMatrix.setIdentity();
-
+        //mMatrix.setIdentity();
         mMatrix.m00 = 2 / viewWidth;
         mMatrix.m01 = 0f;
         mMatrix.m02 = 0f;

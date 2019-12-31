@@ -6,23 +6,30 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.xinlan.yokirender.core.YokiCanvas;
+import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.YokiView;
+import com.xinlan.yokirender.core.math.Color4f;
 
-public class UnlockView extends YokiView {
+public class CustomView extends YokiView {
     private int viewWidth;
     private int viewHeight;
 
-    public UnlockView(Context context) {
+    public CustomView(Context context) {
         super(context);
     }
 
-    public UnlockView(Context context, AttributeSet attrs) {
+    public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    private YokiPaint mPaint;
+
     @Override
     public void onInit(int width, int height) {
-        this.setRefreshColor(Color.YELLOW);
+        this.setRefreshColor(Color.WHITE);
+        mPaint = new YokiPaint();
+        mPaint.color = new Color4f(0.0f , 0.0f , 0.0f , 1.0f);
+        mPaint.size = 11.0f;
     }
 
     @Override
@@ -61,6 +68,14 @@ public class UnlockView extends YokiView {
     @Override
     public void onRender(YokiCanvas canvas) {
         //canvas.drawPoint(100,100 , );
+        //canvas.drawPoint(100,100,mPaint);
+        mPaint.size = 10;
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 0.0f;
 
+        for(int i= 0 ; i<getHeight();i++){
+            canvas.drawPoint(i,i,mPaint);
+        }
     }
 }

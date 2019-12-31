@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.xinlan.glrender.UnlockView
+    <com.xinlan.glrender.CustomView
         android:layout_margin="20dp"
         android:id="@+id/unlock"
         app:layout_constraintTop_toTopOf="parent"

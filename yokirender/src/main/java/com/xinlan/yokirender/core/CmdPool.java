@@ -16,7 +16,7 @@ public class CmdPool {
     private static final int INIT_SIZE = 50;
 
     private int pointINextIndex;
-    private List<PointCmd> pointsPool = new LinkedList<PointCmd>();//画点指令集
+    private LinkedList<PointCmd> pointsPool = new LinkedList<PointCmd>();//画点指令集
 
     public CmdPool(){
     }
@@ -28,7 +28,7 @@ public class CmdPool {
     private void initPointCmds(int initSize) {
         pointINextIndex = 0;
         for(int i = 0 ; i < initSize;i++) {
-            pointsPool.add(new PointCmd());
+            pointsPool.add(PointCmd.newInstance());
         }//end for i
     }
 
@@ -49,9 +49,11 @@ public class CmdPool {
         }while (pointINextIndex != startIndex);
 
         if(cmd == null){
-            cmd = new PointCmd();
-            pointsPool.add(cmd);
+            cmd = PointCmd.newInstance();
+            // pointsPool.add(cmd);
         }
+        //System.out.println("pointINextIndex  = " + pointINextIndex);
+        cmd.used = true;
         return cmd;
     }
 

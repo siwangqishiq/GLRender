@@ -9,7 +9,8 @@ public abstract  class Cmd implements IRender {
     //尺寸
     public float size;
 
-    public int programId; //着色器程序索引
+    public int mProgramId; //着色器程序索引
+    public int mUniformMatrixLoc; //shader中基础变换矩阵的引用
 
     public boolean used = false;
 

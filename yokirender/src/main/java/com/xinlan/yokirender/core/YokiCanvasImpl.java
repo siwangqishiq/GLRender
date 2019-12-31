@@ -57,6 +57,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     @Override
     public void drawPoint(float x, float y, YokiPaint paint) {
         PointCmd pointCmd = mCmdPool.obtainPointCmd();
+        pointCmd.reset(x , y , paint);
         mRenderList.add(pointCmd);
     }
 
