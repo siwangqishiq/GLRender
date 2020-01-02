@@ -103,7 +103,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         System.out.println("onDrawFrame");
         mRender.clearAllRender();
 
-        long t1 = System.currentTimeMillis();
+        long t1 = System.nanoTime();
         GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
@@ -111,7 +111,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
         mRender.render();
 
-        long t2 = System.currentTimeMillis();
+        long t2 = System.nanoTime();
         System.out.println("render a frame time = " + (t2  - t1));
     }
 

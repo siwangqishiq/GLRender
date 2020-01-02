@@ -33,7 +33,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     public void onInitSurface(int w, int h) {
-        mCamera = new Camera(0, 0, w, h);
+        mCamera = new Camera(0, 0, w, h); //设置摄像机初始属性  以View大小作为视口
     }
 
     public void clearAllRender() {
