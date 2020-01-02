@@ -3,6 +3,7 @@ package com.xinlan.yokirender.core.primitive;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.xinlan.yokirender.R;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.util.ShaderUtil;
 
@@ -30,11 +31,15 @@ public class ShaderManager {
     }
 
     private ShaderManager(){
-        initShader();
     }
 
-    private void initShader(){
-        loadShader(PointCmd.RENDER_POINT , PointCmd.vertexShaderSrc() , PointCmd.fragShaderSrc());
+    public void initShader(Context ctx){
+        loadShader(ctx , PointCmd.RENDER_POINT , R.raw.render_point_vertex , R.raw.render_point_fragment);
+    }
+
+
+    public int loadShader(Context ctx , String programName , int vertetxSrcResId , int frgSrcResId) {
+        return loadShader(programName , getSrc(ctx , vertetxSrcResId) , getSrc(ctx , frgSrcResId));
     }
 
     /**
@@ -63,10 +68,10 @@ public class ShaderManager {
      * @param resId
      * @return
      */
-    public static String getSrc(int resId) {
-        if(ctx == null)
+    public static String getSrc(Context context , int resId) {
+        if(context == null)
             return null;
 
-        return ShaderUtil.readTextFileFromRaw(ctx , resId);
+        return ShaderUtil.readTextFileFromRaw(context , resId);
     }
 }

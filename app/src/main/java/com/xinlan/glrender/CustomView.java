@@ -26,7 +26,7 @@ public class CustomView extends YokiView {
 
     @Override
     public void onInit(int width, int height) {
-        this.setRefreshColor(Color.WHITE);
+        this.setRefreshColor(Color.RED);
         mPaint = new YokiPaint();
         mPaint.color = new Color4f(0.0f , 0.0f , 0.0f , 1.0f);
         mPaint.size = 11.0f;
@@ -67,14 +67,23 @@ public class CustomView extends YokiView {
 
     @Override
     public void onRender(YokiCanvas canvas) {
-        //canvas.drawPoint(100,100 , );
-        //canvas.drawPoint(100,100,mPaint);
+        testPoint(canvas);
+        //testLine(canvas);
+    }
+
+    private void testLine(YokiCanvas canvas) {
+
+    }
+
+    private void testPoint(YokiCanvas canvas) {
         mPaint.size = 10;
         mPaint.color.x = 1.0f;
         mPaint.color.y = 1.0f;
         mPaint.color.z = 0.0f;
 
-        for(int i= 0 ; i<getHeight();i++){
+//        canvas.drawPoint(100,100,mPaint);
+
+        for(int i= 0 ; i<getHeight();i+=20){
             canvas.drawPoint(i,i,mPaint);
         }
     }

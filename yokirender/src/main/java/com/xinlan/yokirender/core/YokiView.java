@@ -42,12 +42,12 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         System.out.println("onDetachedFromWindow ");
-        ShaderManager.ctx = null;
+       //ShaderManager.ctx = null;
     }
 
     protected void init(Context context){
         mContext = context;
-        ShaderManager.ctx = context;
+        //ShaderManager.ctx = context;
 
         setEGLContextClientVersion(3);
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -56,7 +56,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
         setRenderer(this);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
-        //setRenderMode(RENDERMODE_CONTINUOUSLY);
+//        setRenderMode(RENDERMODE_CONTINUOUSLY);
 
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
@@ -87,7 +87,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         System.out.println("onSurfaceCreated");
-        mRender.initEngine();
+        mRender.initEngine(mContext);
     }
 
     @Override

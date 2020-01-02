@@ -1,8 +1,11 @@
 package com.xinlan.yokirender.core;
 
+import android.content.Context;
+
 import com.xinlan.yokirender.core.command.PointCmd;
+import com.xinlan.yokirender.core.pool.CmdPools;
 import com.xinlan.yokirender.core.primitive.IRender;
-import com.xinlan.yokirender.core.primitive.Point;
+import com.xinlan.yokirender.core.primitive.ShaderManager;
 
 import java.util.ArrayList;
 
@@ -13,18 +16,18 @@ public class YokiCanvasImpl implements YokiCanvas {
     private Camera mCamera;
     private boolean mCull = false; //是否需要视景体剔除
 
-    private CmdPool mCmdPool;
+    private CmdPools mCmdPool = new CmdPools();;
 
 
     public YokiCanvasImpl(YokiPaint paint) {
         mDefaultPaint = paint;
-        mCmdPool = new CmdPool();
         if (mDefaultPaint == null) {
             mDefaultPaint = new YokiPaint();
         }
     }
 
-    public void initEngine() {
+    public void initEngine(Context context) {
+        ShaderManager.getInstance().initShader(context); //着色器代码资源初始化
         primitiveInit();
     }
 
@@ -41,7 +44,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     public void render() {
-        //1 .视景体的剔除
+        //1 .视景体的剔除   ??应该在渲染指令层做这个优化吗？？
         if (mCull) {
 
         }

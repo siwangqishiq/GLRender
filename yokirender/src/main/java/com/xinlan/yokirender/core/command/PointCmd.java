@@ -22,15 +22,6 @@ public class PointCmd extends Cmd {
         return cmd;
     }
 
-    public static String vertexShaderSrc() {
-        return ShaderManager.getSrc(R.raw.render_point_vertex);
-    }
-
-    public static String fragShaderSrc(){
-        return ShaderManager.getSrc(R.raw.render_point_fragment);
-    }
-
-
     private FloatBuffer mPosBuf;
     private FloatBuffer mColorBuf;
     private FloatBuffer mSizeBuf;
@@ -120,61 +111,4 @@ public class PointCmd extends Cmd {
         GLES30.glDisableVertexAttribArray(1);
         GLES30.glDisableVertexAttribArray(2);
     }
-
-
-    /**
-     * float mColors[] = new float[4];
-     *         FloatBuffer mColorBuf = OpenglEsUtils.allocateBuf(mColors);
-     *         mColorBuf.position(0);
-     *         mColorBuf.put(1.0f);
-     *         mColorBuf.put(0.0f);
-     *         mColorBuf.put(0.0f);
-     *         mColorBuf.put(1.0f);
-     *         mColorBuf.position(0);
-     *
-     *
-     *         float mPosition[] = new float[3];
-     *         FloatBuffer mPositionBuf = OpenglEsUtils.allocateBuf(mPosition);
-     *         mPositionBuf.put(0.0f);
-     *         mPositionBuf.put(0.0f);
-     *         mPositionBuf.put(0.0f);
-     *         mPositionBuf.position(0);
-     *
-     *         String vSrc =
-     *                 "#version 300 es\n" +
-     *                 "\n" +
-     *                 "layout(location = 0) in vec4 aColor;\n" +
-     *                 "layout(location = 1) in vec3 aPos;\n" +
-     *                 "\n" +
-     *                 "out vec4 vColor;\n" +
-     *                 "\n" +
-     *                 "void main(){\n" +
-     *                 "    gl_Position = vec4(aPos.xyz , 1.0f);\n" +
-     *                 "    gl_PointSize = 10.0f;\n" +
-     *                 "    vColor = aColor;\n" +
-     *                 "}";
-     *         String fSrc =
-     *                 "#version 300 es\n" +
-     *                 "\n" +
-     *                 "precision mediump float;\n" +
-     *                 "\n" +
-     *                 "in vec4 vColor;\n" +
-     *                 "out vec4 fragColor;\n" +
-     *                 "\n" +
-     *                 "void main(){\n" +
-     *                 "    fragColor = vColor;\n" +
-     *                 "}";
-     *         int program = ShaderUtil.buildShaderProgram(vSrc , fSrc);
-     *         GLES30.glUseProgram(program);
-     *
-     * //        GLES30.glEnable(GL_POINT);
-     *
-     *         GLES30.glVertexAttribPointer(0 ,4 ,  GLES30.GL_FLOAT , false , 4 * 4 , mColorBuf);
-     *         GLES30.glEnableVertexAttribArray(0);
-     *         GLES30.glVertexAttribPointer(1 ,3 ,  GLES30.GL_FLOAT ,false ,  3 * 4 , mPositionBuf);
-     *         GLES30.glEnableVertexAttribArray(1);
-     *
-     *         GLES30.glDrawArrays(GLES30.GL_POINTS , 0 , 1);
-     */
-
 } //end class
