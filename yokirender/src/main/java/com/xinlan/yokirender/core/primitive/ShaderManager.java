@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.xinlan.yokirender.R;
+import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.util.ShaderUtil;
 
@@ -35,6 +36,7 @@ public class ShaderManager {
 
     public void initShader(Context ctx){
         loadShader(ctx , PointCmd.RENDER_POINT , R.raw.render_point_vertex , R.raw.render_point_fragment);
+        loadShader(ctx , LineCmd.RENDER_LINE , R.raw.render_line_vertex , R.raw.render_line_fragment);
     }
 
 

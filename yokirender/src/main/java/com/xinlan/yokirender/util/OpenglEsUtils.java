@@ -45,6 +45,14 @@ public class OpenglEsUtils {
         return buf;
     }
 
+    public static FloatBuffer allocateBufBySize(int size) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(size * Float.BYTES)
+                .order(ByteOrder.nativeOrder());
+        FloatBuffer buf = bb.asFloatBuffer();
+        buf.position(0);
+        return buf;
+    }
+
     public static ByteBuffer allocateBuf(byte array[]) {
         ByteBuffer bb = ByteBuffer.allocateDirect(array.length * Byte.BYTES)
                 .order(ByteOrder.nativeOrder());
@@ -53,13 +61,13 @@ public class OpenglEsUtils {
         return bb;
     }
 
-    public static Vector4f convertColor(int color){
+    public static Vector4f convertColor(int color) {
         int r = Color.red(color);
         int g = Color.green(color);
         int b = Color.blue(color);
         int a = Color.alpha(color);
 
-        float[]  cs = convertColor(r , g , b , a);
+        float[] cs = convertColor(r, g, b, a);
         return new Vector4f(cs);
     }
 

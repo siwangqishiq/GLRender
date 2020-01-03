@@ -1,10 +1,7 @@
 package com.xinlan.yokirender.core.pool;
 
+import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *  command池
@@ -15,17 +12,23 @@ import java.util.List;
 public class CmdPools {
     private static final int INIT_SIZE = 50;
 
-    private PointPool mPointPool;
+    private PointCmdPool mPointCmdPool;
+    private LineCmdPool mLineCmdPool;
 
     public CmdPools(){
     }
 
     public void initCmds(){
-        mPointPool = new PointPool(INIT_SIZE);
+        mPointCmdPool = new PointCmdPool(INIT_SIZE);
+        mLineCmdPool = new LineCmdPool(INIT_SIZE);
     }
 
     public PointCmd obtainPointCmd(){
-       return mPointPool.obtain();
+       return mPointCmdPool.obtain();
     }
 
+
+    public LineCmd obtainLineCmd() {
+        return mLineCmdPool.obtain();
+    }
 }//end class
