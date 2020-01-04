@@ -2,6 +2,9 @@ package com.xinlan.yokirender.core.command;
 
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.primitive.IRender;
+import com.xinlan.yokirender.util.OpenglEsUtils;
+
+import java.nio.FloatBuffer;
 
 public abstract  class Cmd implements IRender {
     public int zorder; //层叠顺序
@@ -18,4 +21,9 @@ public abstract  class Cmd implements IRender {
     public void reset() {
         used = false;
     }
+
+    public static FloatBuffer allocateFloatBufBySize(final int size) {
+        return OpenglEsUtils.allocateBufBySize(size);
+    }
+
 }

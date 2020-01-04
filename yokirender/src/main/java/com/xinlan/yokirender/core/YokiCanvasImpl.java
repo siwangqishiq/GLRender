@@ -2,6 +2,7 @@ package com.xinlan.yokirender.core;
 
 import android.content.Context;
 
+import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.pool.CmdPools;
 import com.xinlan.yokirender.core.primitive.IRender;
@@ -66,7 +67,10 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void drawLine(float x1, float y1, float x2, float y2, YokiPaint paint) {
+        LineCmd lineRenderCmd = mCmdPool.obtainLineCmd();
+        lineRenderCmd.reset(x1 ,  y1 , x2 , y2 , paint);
 
+        mRenderList.add(lineRenderCmd);
     }
 
     @Override
