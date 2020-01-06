@@ -1,22 +1,19 @@
-package com.xinlan.yokirender.core;
+package com.xinlan.yokirender.core.view;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.graphics.Color;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.xinlan.yokirender.core.math.Matrix3f;
-import com.xinlan.yokirender.core.math.Vector2f;
-import com.xinlan.yokirender.core.math.Vector3f;
+import com.xinlan.yokirender.core.GLConfig;
+import com.xinlan.yokirender.core.YokiCanvas;
+import com.xinlan.yokirender.core.YokiCanvasImpl;
+import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.math.Vector4f;
-import com.xinlan.yokirender.core.primitive.ShaderManager;
 import com.xinlan.yokirender.util.OpenglEsUtils;
-
-import java.util.logging.Logger;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -61,38 +58,11 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         //requestRender();
 
         setRenderer(this);
-        setRenderMode(RENDERMODE_WHEN_DIRTY);
-//        setRenderMode(RENDERMODE_CONTINUOUSLY);
+//        setRenderMode(RENDERMODE_WHEN_DIRTY);
+        setRenderMode(RENDERMODE_CONTINUOUSLY);
 
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
-    }
-
-
-    /**
-     *
-     */
-    private void readGLConfig(){
-        final ActivityManager activityManager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        final ConfigurationInfo configurationInfo =activityManager.getDeviceConfigurationInfo();
-        int version = configurationInfo.reqGlEsVersion;
-        String versionName = configurationInfo.getGlEsVersion();
-
-        GLConfig.glVersion = version;
-        GLConfig.glVersionName = versionName;
-
-        Log.d(TAG, "GL version  "+Integer.toHexString(version)+" , "+ versionName);
-
-        float pointSizeBuffers[] = new float[2];
-        GLES30.glGetFloatv(GLES30.GL_ALIASED_POINT_SIZE_RANGE , pointSizeBuffers , 0);
-        GLConfig.maxPointSize = pointSizeBuffers[1];
-
-        float lineWidthRangeBuffers[] = new float[2];
-        GLES30.glGetFloatv(GLES30.GL_ALIASED_LINE_WIDTH_RANGE , lineWidthRangeBuffers , 0);
-        GLConfig.maxLineWidth = lineWidthRangeBuffers[1];
-
-        Log.d(TAG, "GL pointSizeRange  = "+pointSizeBuffers[0] +" - "+ pointSizeBuffers[1]);
-        Log.d(TAG, "GL lineWidthRange  = "+lineWidthRangeBuffers[0] +" - "+ lineWidthRangeBuffers[1]);
     }
 
 
@@ -126,6 +96,32 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         mRender.initEngine(mContext);
     }
 
+    /**
+     *
+     */
+    private void readGLConfig(){
+        final ActivityManager activityManager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        final ConfigurationInfo configurationInfo =activityManager.getDeviceConfigurationInfo();
+        int version = configurationInfo.reqGlEsVersion;
+        String versionName = configurationInfo.getGlEsVersion();
+
+        GLConfig.glVersion = version;
+        GLConfig.glVersionName = versionName;
+
+        Log.d(TAG, "GL version  "+Integer.toHexString(version)+" , "+ versionName);
+
+        float pointSizeBuffers[] = new float[2];
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_POINT_SIZE_RANGE , pointSizeBuffers , 0);
+        GLConfig.maxPointSize = pointSizeBuffers[1];
+
+        float lineWidthRangeBuffers[] = new float[2];
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_LINE_WIDTH_RANGE , lineWidthRangeBuffers , 0);
+        GLConfig.maxLineWidth = lineWidthRangeBuffers[1];
+
+        Log.d(TAG, "GL pointSizeRange  = "+pointSizeBuffers[0] +" - "+ pointSizeBuffers[1]);
+        Log.d(TAG, "GL lineWidthRange  = "+lineWidthRangeBuffers[0] +" - "+ lineWidthRangeBuffers[1]);
+    }
+
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         Log.d(TAG , "onSurfaceChanged width = " + width +"  height = " + height);
@@ -136,7 +132,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        System.out.println("onDrawFrame");
+        //System.out.println("onDrawFrame");
         mRender.clearAllRender();
 
         long t1 = System.currentTimeMillis();

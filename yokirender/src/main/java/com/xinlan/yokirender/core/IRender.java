@@ -1,4 +1,4 @@
-package com.xinlan.yokirender.core.primitive;
+package com.xinlan.yokirender.core;
 
 import com.xinlan.yokirender.core.math.Matrix3f;
 

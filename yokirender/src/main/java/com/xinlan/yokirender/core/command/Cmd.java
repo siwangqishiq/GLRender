@@ -1,14 +1,14 @@
 package com.xinlan.yokirender.core.command;
 
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.primitive.IRender;
+import com.xinlan.yokirender.core.IRender;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import java.nio.FloatBuffer;
 
 public abstract  class Cmd implements IRender {
     public int zorder; //层叠顺序
-    public YokiPaint paint;
+    public YokiPaint mPaint;
     //尺寸
     public float size;
 

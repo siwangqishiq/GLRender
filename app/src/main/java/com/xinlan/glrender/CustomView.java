@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 
 import com.xinlan.yokirender.core.YokiCanvas;
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.YokiView;
+import com.xinlan.yokirender.core.view.YokiView;
 import com.xinlan.yokirender.core.math.Color4f;
 
 public class CustomView extends YokiView {
@@ -26,9 +26,9 @@ public class CustomView extends YokiView {
 
     @Override
     public void onInit(int width, int height) {
-        this.setRefreshColor(Color.RED);
+        this.setRefreshColor(Color.BLACK);
         mPaint = new YokiPaint();
-        mPaint.color = new Color4f(0.0f , 0.0f , 0.0f , 1.0f);
+        mPaint.color = new Color4f(0.0f, 0.0f, 0.0f, 1.0f);
         mPaint.size = 11.0f;
     }
 
@@ -67,19 +67,51 @@ public class CustomView extends YokiView {
 
     @Override
     public void onRender(YokiCanvas canvas) {
-        // testPoint(canvas);
-        //testLine(canvas);
-        testLine2(canvas);
+//        testPoint(canvas);
+//        testPoint2(canvas);
+//
+//        testLine(canvas);
+//        testLine2(canvas);
+//        drawTriangles(canvas);
+//        drawRects(canvas);
+
+        drawRects2(canvas);
+    }
+
+    private void drawRects(YokiCanvas canvas) {
+        YokiPaint paint = new YokiPaint();
+        paint.color = new Color4f(1.0f, 1.0f, 0.0f, 1.0f);
+       canvas.drawRect(100,100,100,100 , paint);
+    }
+
+    private void drawRects2(YokiCanvas canvas) {
+        YokiPaint paint = new YokiPaint();
+        for(int i = 0 ; i < 2000 ; i+= 20){
+            for(int j = 0 ; j < 2000 ; j+=20){
+                paint.color = new Color4f((float)j / 2000, (float)i / 2000, 0.0f, 1.0f);
+                canvas.drawRect(i,j,100,100 , paint);
+            }
+        }
+    }
+
+
+    private void drawTriangles(YokiCanvas canvas) {
+        for(int j = 0 ; j < 2000 ; j +=20){
+            for(int i = 0 ; i < 2000;i+=20){
+                mPaint.color = new Color4f(1.0f, (float)j / 2000, (float)i / 2000, 1.0f);
+                canvas.drawTriangle(i,j,i+20,j,i+10,j +30, mPaint);
+            }//end for i
+        }//end for j
     }
 
 
     private void testLine2(YokiCanvas canvas) {
         YokiPaint paint = new YokiPaint();
-        paint.color =new Color4f(1.0f,1.0f, 1.0f , 1.0f);
+        paint.color = new Color4f(1.0f, 1.0f, 1.0f, 1.0f);
         paint.size = 18.0f;
 
-        canvas.drawLine(0 , 0 , 100 , 100 , paint);
-        canvas.drawLine(0 , 100 , 100 , 0 , paint);
+        canvas.drawLine(0, 0, 800, 600, paint);
+        canvas.drawLine(0, 600, 800, 0, paint);
     }
 
     private void testLine(YokiCanvas canvas) {
@@ -87,10 +119,10 @@ public class CustomView extends YokiView {
         float c_y = 400;
 
         float radius = 200;
-        for(int i = 0 ; i < 360;i ++) {
-            float x = (float)(c_x + radius  * Math.cos((double)i));
-            float y = (float)(c_y + radius * Math.sin((double)i));
-            canvas.drawLine(c_x , c_y , x , y , mPaint);
+        for (int i = 0; i < 360; i++) {
+            float x = (float) (c_x + radius * Math.cos(i));
+            float y = (float) (c_y + radius * Math.sin(i));
+            canvas.drawLine(c_x, c_y, x, y, mPaint);
         }
     }
 
@@ -102,8 +134,25 @@ public class CustomView extends YokiView {
 
 //        canvas.drawPoint(100,100,mPaint);
 
-        for(int i= 0 ; i<getHeight();i+=20){
-            canvas.drawPoint(i,i,mPaint);
+        for (int i = 0; i < getHeight(); i += 20) {
+            canvas.drawPoint(i, i, mPaint);
+        }
+    }
+
+    private void testPoint2(YokiCanvas canvas) {
+        mPaint.size = 10;
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 0.0f;
+
+        float c_x = 400;
+        float c_y = 300;
+
+        float radius = 200;
+        for (int i = 0; i < 360; i++) {
+            float x = (float) (c_x + radius * Math.cos(i));
+            float y = (float) (c_y + radius * Math.sin(i));
+            canvas.drawPoint(x, y, mPaint);
         }
     }
 }

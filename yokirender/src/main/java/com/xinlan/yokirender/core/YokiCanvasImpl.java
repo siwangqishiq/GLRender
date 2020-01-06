@@ -2,11 +2,13 @@ package com.xinlan.yokirender.core;
 
 import android.content.Context;
 
+import com.xinlan.yokirender.core.command.Cmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
+import com.xinlan.yokirender.core.command.RectCmd;
+import com.xinlan.yokirender.core.command.TriangleCmd;
 import com.xinlan.yokirender.core.pool.CmdPools;
-import com.xinlan.yokirender.core.primitive.IRender;
-import com.xinlan.yokirender.core.primitive.ShaderManager;
+import com.xinlan.yokirender.core.shader.ShaderManager;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     public void onInitSurface(int w, int h) {
         //mCamera = new Camera(0, 0, w, h); //设置摄像机初始属性  以View大小作为视口
-        mCamera = new Camera(0, 0, 100, 100); //设置摄像机初始属性  以View大小作为视口
+        mCamera = new Camera(0, 0, w, h); //设置摄像机初始属性  以View大小作为视口
     }
 
     public void clearAllRender() {
@@ -61,27 +63,34 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void drawPoint(float x, float y, YokiPaint paint) {
-        PointCmd pointCmd = mCmdPool.obtainPointCmd();
-        pointCmd.reset(x , y , paint);
-        mRenderList.add(pointCmd);
+        final PointCmd cmd = mCmdPool.obtainPointCmd();
+        cmd.update(x , y , paint);
+
+        addRenderCmd(cmd);
     }
 
     @Override
     public void drawLine(float x1, float y1, float x2, float y2, YokiPaint paint) {
-        LineCmd lineRenderCmd = mCmdPool.obtainLineCmd();
-        lineRenderCmd.reset(x1 ,  y1 , x2 , y2 , paint);
+        final LineCmd cmd = mCmdPool.obtainLineCmd();
+        cmd.update(x1 ,  y1 , x2 , y2 , paint);
 
-        mRenderList.add(lineRenderCmd);
+        addRenderCmd(cmd);
     }
 
     @Override
     public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, YokiPaint paint) {
+        final TriangleCmd cmd = mCmdPool.obtainTriangleCmd();
+        cmd.update(x1 , y1 , x2 , y2 , x3 , y3 ,paint);
 
+        addRenderCmd(cmd);
     }
 
     @Override
     public void drawRect(float left, float top, float width, float height, YokiPaint paint) {
+        final RectCmd cmd = mCmdPool.obtainRectCmd();
+        cmd.update(left , top , width , height ,paint);
 
+        addRenderCmd(cmd);
     }
 
     @Override
@@ -112,5 +121,16 @@ public class YokiCanvasImpl implements YokiCanvas {
     @Override
     public Camera getCamera() {
         return mCamera;
+    }
+
+    /**
+     *   将渲染指令添加到渲染列表中去
+     * @param cmd
+     */
+    public void addRenderCmd(final Cmd cmd){
+        if(cmd == null)
+            return;
+
+        mRenderList.add(cmd);
     }
 }//end class

@@ -2,10 +2,9 @@ package com.xinlan.yokirender.core.command;
 
 import android.opengl.GLES30;
 
-import com.xinlan.yokirender.R;
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.math.Matrix3f;
-import com.xinlan.yokirender.core.primitive.ShaderManager;
+import com.xinlan.yokirender.core.shader.ShaderManager;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import java.nio.FloatBuffer;
@@ -69,7 +68,7 @@ public class PointCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , 0);
     }
 
-    public void reset(float x , float y , YokiPaint paint) {
+    public void update(float x , float y , YokiPaint paint) {
         mPosBuf.position(0);
         mPosBuf.put(x);
         mPosBuf.put(y);

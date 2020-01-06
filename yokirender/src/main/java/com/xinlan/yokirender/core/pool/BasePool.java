@@ -49,6 +49,7 @@ public abstract class BasePool<T extends Cmd> {
         if (result == null) {
             //System.out.println("!!! createNewInstance " + mNextIndex);
             result = createNewInstance();
+            mObjList.add(result);
         }
         return result;
         // return createNewInstance();

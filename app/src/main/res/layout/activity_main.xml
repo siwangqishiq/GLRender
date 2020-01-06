@@ -7,11 +7,10 @@
     tools:context=".MainActivity">
 
     <com.xinlan.glrender.CustomView
-        android:layout_margin="20dp"
         android:id="@+id/unlock"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

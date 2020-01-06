@@ -5,8 +5,7 @@ import android.opengl.GLES30;
 import com.xinlan.yokirender.core.GLConfig;
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.math.Matrix3f;
-import com.xinlan.yokirender.core.primitive.ShaderManager;
-import com.xinlan.yokirender.util.OpenglEsUtils;
+import com.xinlan.yokirender.core.shader.ShaderManager;
 
 import java.nio.FloatBuffer;
 
@@ -61,7 +60,7 @@ public class LineCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , 0);
     }
 
-    public void reset(float _x1 , float _y1 , float _x2 , float _y2 , YokiPaint paint){
+    public void update(float _x1 , float _y1 , float _x2 , float _y2 , YokiPaint paint){
         mPosBuf.position(0);
         mPosBuf.put(_x1);
         mPosBuf.put(_y1);

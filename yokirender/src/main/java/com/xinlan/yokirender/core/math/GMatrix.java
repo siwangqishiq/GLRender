@@ -1656,7 +1656,7 @@ public class GMatrix implements java.io.Serializable, Cloneable {
 
     /**
      * Sets this matrix to a uniform scale matrix; all of the
-     * values are reset.
+     * values are update.
      *
      * @param scale The new scale value
      */
