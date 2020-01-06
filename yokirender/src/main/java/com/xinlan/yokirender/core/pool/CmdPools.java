@@ -10,7 +10,7 @@ import com.xinlan.yokirender.core.command.PointCmd;
  *
  */
 public class CmdPools {
-    private static final int INIT_SIZE = 50;
+    private static final int INIT_SIZE = 100;
 
     private PointCmdPool mPointCmdPool;
     private LineCmdPool mLineCmdPool;

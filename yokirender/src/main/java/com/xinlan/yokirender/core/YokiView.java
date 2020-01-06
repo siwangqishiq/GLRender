@@ -1,10 +1,13 @@
 package com.xinlan.yokirender.core;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.graphics.Color;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.xinlan.yokirender.core.math.Matrix3f;
 import com.xinlan.yokirender.core.math.Vector2f;
@@ -12,6 +15,8 @@ import com.xinlan.yokirender.core.math.Vector3f;
 import com.xinlan.yokirender.core.math.Vector4f;
 import com.xinlan.yokirender.core.primitive.ShaderManager;
 import com.xinlan.yokirender.util.OpenglEsUtils;
+
+import java.util.logging.Logger;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -21,6 +26,8 @@ import javax.microedition.khronos.opengles.GL10;
  *
  */
 public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.Renderer {
+    private static final String TAG = YokiView.class.getSimpleName();
+
     private Context mContext;
 
     private Vector4f mRefreshColor = new Vector4f();
@@ -41,14 +48,13 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        System.out.println("onDetachedFromWindow ");
+        Log.d(TAG , "onDetachedFromWindow ");
        //ShaderManager.ctx = null;
     }
 
     protected void init(Context context){
         mContext = context;
         //ShaderManager.ctx = context;
-
         setEGLContextClientVersion(3);
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
@@ -61,6 +67,34 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
     }
+
+
+    /**
+     *
+     */
+    private void readGLConfig(){
+        final ActivityManager activityManager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        final ConfigurationInfo configurationInfo =activityManager.getDeviceConfigurationInfo();
+        int version = configurationInfo.reqGlEsVersion;
+        String versionName = configurationInfo.getGlEsVersion();
+
+        GLConfig.glVersion = version;
+        GLConfig.glVersionName = versionName;
+
+        Log.d(TAG, "GL version  "+Integer.toHexString(version)+" , "+ versionName);
+
+        float pointSizeBuffers[] = new float[2];
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_POINT_SIZE_RANGE , pointSizeBuffers , 0);
+        GLConfig.maxPointSize = pointSizeBuffers[1];
+
+        float lineWidthRangeBuffers[] = new float[2];
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_LINE_WIDTH_RANGE , lineWidthRangeBuffers , 0);
+        GLConfig.maxLineWidth = lineWidthRangeBuffers[1];
+
+        Log.d(TAG, "GL pointSizeRange  = "+pointSizeBuffers[0] +" - "+ pointSizeBuffers[1]);
+        Log.d(TAG, "GL lineWidthRange  = "+lineWidthRangeBuffers[0] +" - "+ lineWidthRangeBuffers[1]);
+    }
+
 
     /**
      * 手动请求刷新一次View
@@ -86,13 +120,15 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        System.out.println("onSurfaceCreated");
+        Log.d(TAG , "onSurfaceCreated");
+
+        readGLConfig();
         mRender.initEngine(mContext);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        System.out.println("onSurfaceChanged width = " + width +"  height = " + height);
+        Log.d(TAG , "onSurfaceChanged width = " + width +"  height = " + height);
         GLES30.glViewport(0, 0, width, height);
         mRender.onInitSurface(width , height);
         onInit(width , height);
@@ -103,7 +139,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         System.out.println("onDrawFrame");
         mRender.clearAllRender();
 
-        long t1 = System.nanoTime();
+        long t1 = System.currentTimeMillis();
         GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
@@ -111,8 +147,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
         mRender.render();
 
-        long t2 = System.nanoTime();
-        System.out.println("render a frame time = " + (t2  - t1));
+        long t2 = System.currentTimeMillis();
+        Log.d(TAG, "render a frame time = " + (t2  - t1));
     }
 
 

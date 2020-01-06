@@ -2,6 +2,7 @@ package com.xinlan.yokirender.core.command;
 
 import android.opengl.GLES30;
 
+import com.xinlan.yokirender.core.GLConfig;
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.math.Matrix3f;
 import com.xinlan.yokirender.core.primitive.ShaderManager;
@@ -28,12 +29,14 @@ public class LineCmd extends Cmd {
     private FloatBuffer mPosBuf; //直线坐标数据
     private FloatBuffer mColorBuf; //直线颜色
 
+    private float mLineWidth;
+
     @Override
     public void init() {
         mProgramId = ShaderManager.getInstance().findProgramId(RENDER_LINE);
         mUniformMatrixLoc = GLES30.glGetUniformLocation(mProgramId , "uMatrix");
 
-        //显存空间开辟2个缓冲区
+        //显存空间开辟2个缓冲区  一个存位置 一个存颜色
         int buffIds[] = new int[2];
         GLES30.glGenBuffers(2 , buffIds , 0);
 
@@ -79,6 +82,10 @@ public class LineCmd extends Cmd {
         mColorBuf.put(paint.color.w);
         mColorBuf.position(0);
 
+        if(paint.size <= GLConfig.maxLineWidth) {
+            mLineWidth = paint.size;
+        }
+
         updateBuffer();
     }
 
@@ -95,6 +102,8 @@ public class LineCmd extends Cmd {
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mColorBufId);
         GLES30.glVertexAttribPointer(1 , 4 , GLES30.GL_FLOAT , false ,  4 * Float.BYTES , 0);
+
+        GLES30.glLineWidth(mLineWidth); //设置线段宽度
 
         GLES30.glDrawArrays(GLES30.GL_LINES , 0 , 2);
 

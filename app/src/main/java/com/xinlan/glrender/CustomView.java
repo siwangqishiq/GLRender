@@ -68,14 +68,25 @@ public class CustomView extends YokiView {
     @Override
     public void onRender(YokiCanvas canvas) {
         // testPoint(canvas);
-        testLine(canvas);
+        //testLine(canvas);
+        testLine2(canvas);
+    }
+
+
+    private void testLine2(YokiCanvas canvas) {
+        YokiPaint paint = new YokiPaint();
+        paint.color =new Color4f(1.0f,1.0f, 1.0f , 1.0f);
+        paint.size = 18.0f;
+
+        canvas.drawLine(0 , 0 , 100 , 100 , paint);
+        canvas.drawLine(0 , 100 , 100 , 0 , paint);
     }
 
     private void testLine(YokiCanvas canvas) {
-        float c_x = 200;
-        float c_y = 200;
+        float c_x = 400;
+        float c_y = 400;
 
-        float radius = 100;
+        float radius = 200;
         for(int i = 0 ; i < 360;i ++) {
             float x = (float)(c_x + radius  * Math.cos((double)i));
             float y = (float)(c_y + radius * Math.sin((double)i));
