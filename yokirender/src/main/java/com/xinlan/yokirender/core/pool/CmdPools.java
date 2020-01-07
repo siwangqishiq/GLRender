@@ -30,7 +30,7 @@ public class CmdPools {
     }
 
     public PointCmd obtainPointCmd(){
-       return mPointCmdPool.obtain();
+       return mPointCmdPool.obtain(0);
     }
 
 

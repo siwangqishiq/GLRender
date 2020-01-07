@@ -10,6 +10,8 @@ import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.view.YokiView;
 import com.xinlan.yokirender.core.math.Color4f;
 
+import java.util.Random;
+
 public class CustomView extends YokiView {
     private int viewWidth;
     private int viewHeight;
@@ -27,6 +29,8 @@ public class CustomView extends YokiView {
     YokiPaint paintRed = new YokiPaint();
 
     YokiPaint paintYellow = new YokiPaint();
+
+    Random mRnd = new Random();
 
     @Override
     public void onInit(int width, int height) {
@@ -73,26 +77,46 @@ public class CustomView extends YokiView {
 
     @Override
     public void onRender(YokiCanvas canvas) {
-//        testPoint(canvas);
+        testPoint(canvas);
 //        testPoint2(canvas);
+        testPoints3(canvas);
 //
 //        testLine(canvas);
 //        testLine2(canvas);
-
+//
 //        drawTriangles(canvas);
-
+//
 //        drawRects(canvas);
-        drawRects2(canvas);
-
+//        drawRects2(canvas);
+//
 //        drawTestDepth(canvas);
 //        drawTestDepth2(canvas);
+    }
+
+    private void testPoints3(YokiCanvas canvas) {
+        long t1 = System.currentTimeMillis();
+        for(int i = 0 ; i < 2000 ; i+=20){
+            for(int j = 0 ; j< getHeight() ; j+=20){
+                mPaint.color.x = mRnd.nextFloat();
+                mPaint.color.y = mRnd.nextFloat();
+                mPaint.color.z = mRnd.nextFloat();
+                mPaint.color.w = 1.0f;
+                mPaint.size = mRnd.nextInt(20);
+
+                float x = 0 + i;
+                float y = 0  + j;
+                canvas.drawPoint(x, y, mPaint);
+            }
+        }
+        long t2 = System.currentTimeMillis();
+        System.out.println("delta = " + (t2 - t1));
     }
 
     private void drawTestDepth2(YokiCanvas canvas) {
         paintRed.size=8f;
         canvas.drawLine(100,100,700,700 , paintRed);
         canvas.drawRect(400,500,200,200 , paintYellow);
-        canvas.drawRect(100,200,200,200 , paintYellow);
+        //canvas.drawRect(100,200,200,200 , paintYellow);
     }
 
 
@@ -151,6 +175,10 @@ public class CustomView extends YokiView {
 
         float radius = 200;
         for (int i = 0; i < 360; i++) {
+            mPaint.color.x = mRnd.nextFloat();
+            mPaint.color.y = mRnd.nextFloat();
+            mPaint.color.z = mRnd.nextFloat();
+            mPaint.color.w = 1.0f;
             float x = (float) (c_x + radius * Math.cos(i));
             float y = (float) (c_y + radius * Math.sin(i));
             canvas.drawLine(c_x, c_y, x, y, mPaint);

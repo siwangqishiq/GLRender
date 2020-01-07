@@ -53,7 +53,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         mContext = context;
         //ShaderManager.ctx = context;
         setEGLContextClientVersion(3);
-        setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        setEGLConfigChooser(8, 8, 8, 8, 24, 0);
 
         //requestRender();
 

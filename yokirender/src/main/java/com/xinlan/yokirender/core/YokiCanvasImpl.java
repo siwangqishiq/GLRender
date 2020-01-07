@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class YokiCanvasImpl implements YokiCanvas {
     private YokiPaint mDefaultPaint;
-    private ArrayList<IRender> mRenderList = new ArrayList<IRender>(64);
+    private ArrayList<IRender> mRenderList = new ArrayList<IRender>(256);
 
     private Camera mCamera;
     private boolean mCull = false; //是否需要视景体剔除
@@ -54,7 +54,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void render() {
         //1 .视景体的剔除   ??应该在渲染指令层做这个优化吗？？
         if (mCull) {
-
+            //todo cull
         }
 
         // 2. render
@@ -69,7 +69,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawPoint(float x, float y, YokiPaint paint) {
         decreseZorder();
         final PointCmd cmd = mCmdPool.obtainPointCmd();
-        cmd.update(x , y , mZorder ,paint);
+        cmd.appendRender(x , y , mZorder , paint);
 
         addRenderCmd(cmd);
     }
@@ -101,30 +101,30 @@ public class YokiCanvasImpl implements YokiCanvas {
         addRenderCmd(cmd);
     }
 
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void rotate(float degree, float centerX, float centerY) {
-
-    }
-
-    @Override
-    public void scale(float scaleX, float scaleY) {
-
-    }
-
-    @Override
-    public void transform(float deltaX, float deltaY) {
-
-    }
-
-    @Override
-    public void restore() {
-
-    }
+//    @Override
+//    public void save() {
+//
+//    }
+//
+//    @Override
+//    public void rotate(float degree, float centerX, float centerY) {
+//
+//    }
+//
+//    @Override
+//    public void scale(float scaleX, float scaleY) {
+//
+//    }
+//
+//    @Override
+//    public void transform(float deltaX, float deltaY) {
+//
+//    }
+//
+//    @Override
+//    public void restore() {
+//
+//    }
 
     @Override
     public Camera getCamera() {
@@ -136,9 +136,11 @@ public class YokiCanvasImpl implements YokiCanvas {
      * @param cmd
      */
     public void addRenderCmd(final Cmd cmd){
-        if(cmd == null)
+        if(cmd == null || cmd.addRenderList)
             return;
 
+        //System.out.println("add to render list  index = " + cmd.mIndex);
+        cmd.addRenderList = true;
         mRenderList.add(cmd);
     }
 

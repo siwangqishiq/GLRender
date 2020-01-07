@@ -11,4 +11,20 @@ public class PointCmdPool extends BasePool<PointCmd> {
     public PointCmd createNewInstance() {
         return PointCmd.newInstance();
     }
+
+    public PointCmd obtain(int val) {
+        PointCmd cmd = null;
+
+        for(int i = 0,len = mObjList.size() ; i < len;i++){
+            if(!mObjList.get(i).isFull){
+                cmd = mObjList.get(i);
+                break;
+            }
+        }
+        if(cmd == null){
+            cmd = createNewInstance();
+            mObjList.add(cmd);
+        }
+        return cmd;
+    }
 }

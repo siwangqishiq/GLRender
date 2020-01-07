@@ -16,10 +16,17 @@ public abstract  class Cmd implements IRender {
     public int mUniformMatrixLoc; //shader中基础变换矩阵的引用
 
     public boolean used = false;
+    public boolean addRenderList = false;//
+
+    public boolean isFull = false;
+    public int mIndex = 0;
 
     @Override
     public void reset() {
         used = false;
+        addRenderList = false;
+        isFull = false;
+        mIndex = 0;
     }
 
     public static FloatBuffer allocateFloatBufBySize(final int size) {

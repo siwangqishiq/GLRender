@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @param <T>
  */
 public abstract class BasePool<T extends Cmd> {
-    private ArrayList<T> mObjList;
+    protected ArrayList<T> mObjList;
 
     protected int mNextIndex;
 
@@ -39,7 +39,7 @@ public abstract class BasePool<T extends Cmd> {
                 i = (i + 1) % poolSize;
             } else {
                 result = mObjList.get(i);
-                result.used = true;
+                // result.used = true;
                 mNextIndex = i + 1;
                 break;
             }
