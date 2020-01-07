@@ -19,7 +19,10 @@ public class YokiCanvasImpl implements YokiCanvas {
     private Camera mCamera;
     private boolean mCull = false; //是否需要视景体剔除
 
-    private CmdPools mCmdPool = new CmdPools();;
+    private float mZorder = 1.0f;
+    private static final float ZORDER_DECRESE = 0.0001f;
+
+    private CmdPools mCmdPool = new CmdPools();
 
 
     public YokiCanvasImpl(YokiPaint paint) {
@@ -44,6 +47,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     public void clearAllRender() {
+        mZorder = 1.0f;
         mRenderList.clear();
     }
 
@@ -63,32 +67,36 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void drawPoint(float x, float y, YokiPaint paint) {
+        decreseZorder();
         final PointCmd cmd = mCmdPool.obtainPointCmd();
-        cmd.update(x , y , paint);
+        cmd.update(x , y , mZorder ,paint);
 
         addRenderCmd(cmd);
     }
 
     @Override
     public void drawLine(float x1, float y1, float x2, float y2, YokiPaint paint) {
+        decreseZorder();
         final LineCmd cmd = mCmdPool.obtainLineCmd();
-        cmd.update(x1 ,  y1 , x2 , y2 , paint);
+        cmd.update(x1 ,  y1 , x2 , y2 , mZorder , paint);
 
         addRenderCmd(cmd);
     }
 
     @Override
     public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, YokiPaint paint) {
+        decreseZorder();
         final TriangleCmd cmd = mCmdPool.obtainTriangleCmd();
-        cmd.update(x1 , y1 , x2 , y2 , x3 , y3 ,paint);
+        cmd.update(x1 , y1 , x2 , y2 , x3 , y3 , mZorder ,paint);
 
         addRenderCmd(cmd);
     }
 
     @Override
     public void drawRect(float left, float top, float width, float height, YokiPaint paint) {
+        decreseZorder();
         final RectCmd cmd = mCmdPool.obtainRectCmd();
-        cmd.update(left , top , width , height ,paint);
+        cmd.update(left , top , width , height , mZorder,paint);
 
         addRenderCmd(cmd);
     }
@@ -132,5 +140,9 @@ public class YokiCanvasImpl implements YokiCanvas {
             return;
 
         mRenderList.add(cmd);
+    }
+
+    public void decreseZorder() {
+        mZorder -= ZORDER_DECRESE;
     }
 }//end class

@@ -12,7 +12,7 @@ import com.xinlan.yokirender.core.command.TriangleCmd;
  *
  */
 public class CmdPools {
-    private static final int INIT_SIZE = 64;
+    private static final int INIT_SIZE = 32;
 
     private PointCmdPool mPointCmdPool;
     private LineCmdPool mLineCmdPool;

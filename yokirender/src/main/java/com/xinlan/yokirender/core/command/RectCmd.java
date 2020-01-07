@@ -18,16 +18,20 @@ public class RectCmd extends TriangleCmd {
         return 4;
     }
 
-    public void update(float left , float top , float width , float height , YokiPaint paint){
+    public void update(float left , float top , float width , float height ,float zOrder, YokiPaint paint){
         mPosBuf.position(0);
         mPosBuf.put(left);
         mPosBuf.put(top);
+        mPosBuf.put(zOrder);
         mPosBuf.put(left + width);
         mPosBuf.put(top);
+        mPosBuf.put(zOrder);
         mPosBuf.put(left + width);
         mPosBuf.put(top - height);
+        mPosBuf.put(zOrder);
         mPosBuf.put(left);
         mPosBuf.put(top - height);
+        mPosBuf.put(zOrder);
         mPosBuf.position(0);
 
         mColorBuf.position(0);

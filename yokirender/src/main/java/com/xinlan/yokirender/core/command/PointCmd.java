@@ -25,7 +25,7 @@ public class PointCmd extends Cmd {
     private FloatBuffer mColorBuf;
     private FloatBuffer mSizeBuf;
 
-    private float pos[] = new float[2];
+    private float pos[] = new float[3];
     private float color[] = new float[4];
     private float size = 4.0f;
 
@@ -68,10 +68,11 @@ public class PointCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , 0);
     }
 
-    public void update(float x , float y , YokiPaint paint) {
+    public void update(float x , float y ,float zOrder , YokiPaint paint) {
         mPosBuf.position(0);
         mPosBuf.put(x);
         mPosBuf.put(y);
+        mPosBuf.put(zOrder);
         mPosBuf.position(0);
 
         paint.color.get(color);
@@ -96,7 +97,7 @@ public class PointCmd extends Cmd {
         GLES30.glEnableVertexAttribArray(2);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mPosBufId);
-        GLES30.glVertexAttribPointer(0 , 2 , GLES30.GL_FLOAT , false , 2 * Float.BYTES , 0);
+        GLES30.glVertexAttribPointer(0 , 3 , GLES30.GL_FLOAT , false , 3 * Float.BYTES , 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mColorBufId);
         GLES30.glVertexAttribPointer(1 , 4 , GLES30.GL_FLOAT , false ,  4 * Float.BYTES , 0);

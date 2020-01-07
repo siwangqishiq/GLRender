@@ -78,12 +78,14 @@ public class CustomView extends YokiView {
 //
 //        testLine(canvas);
 //        testLine2(canvas);
-//        drawTriangles(canvas);
-//        drawRects(canvas);
 
-//        drawRects2(canvas);
+//        drawTriangles(canvas);
+
+//        drawRects(canvas);
+        drawRects2(canvas);
+
 //        drawTestDepth(canvas);
-        drawTestDepth2(canvas);
+//        drawTestDepth2(canvas);
     }
 
     private void drawTestDepth2(YokiCanvas canvas) {

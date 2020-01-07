@@ -41,7 +41,7 @@ public class TriangleCmd extends Cmd {
         int buffIds[] = new int[2];
         GLES30.glGenBuffers(2 , buffIds , 0);
         mPosBufId = buffIds[0];
-        mPosBuf = allocateFloatBufBySize(vertexCount * 2);
+        mPosBuf = allocateFloatBufBySize(vertexCount * 3);
 
         mColorBufId = buffIds[1];
         mColorBuf = allocateFloatBufBySize(vertexCount * 4);
@@ -53,7 +53,7 @@ public class TriangleCmd extends Cmd {
         final int vertexCount = vertexCount();
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , mPosBufId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER , vertexCount * 2 * Float.BYTES , mPosBuf , GLES30.GL_DYNAMIC_DRAW);
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER , vertexCount * 3 * Float.BYTES , mPosBuf , GLES30.GL_DYNAMIC_DRAW);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , mColorBufId);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER ,  vertexCount * 4 * Float.BYTES , mColorBuf , GLES30.GL_DYNAMIC_DRAW);
@@ -61,14 +61,17 @@ public class TriangleCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , 0);
     }
 
-    public void update(float x1 , float y1 , float x2 , float y2 , float x3 , float y3 , YokiPaint paint){
+    public void update(float x1 , float y1 , float x2 , float y2 , float x3 , float y3 ,float zOrder, YokiPaint paint){
         mPosBuf.position(0);
         mPosBuf.put(x1);
         mPosBuf.put(y1);
+        mPosBuf.put(zOrder);
         mPosBuf.put(x2);
         mPosBuf.put(y2);
+        mPosBuf.put(zOrder);
         mPosBuf.put(x3);
         mPosBuf.put(y3);
+        mPosBuf.put(zOrder);
         mPosBuf.position(0);
 
         mColorBuf.position(0);
@@ -92,7 +95,7 @@ public class TriangleCmd extends Cmd {
         GLES30.glEnableVertexAttribArray(1);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mPosBufId);
-        GLES30.glVertexAttribPointer(0 , 2 , GLES30.GL_FLOAT , false , 2 * Float.BYTES , 0);
+        GLES30.glVertexAttribPointer(0 , 3 , GLES30.GL_FLOAT , false , 3 * Float.BYTES , 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mColorBufId);
         GLES30.glVertexAttribPointer(1 , 4 , GLES30.GL_FLOAT , false ,  4 * Float.BYTES , 0);
