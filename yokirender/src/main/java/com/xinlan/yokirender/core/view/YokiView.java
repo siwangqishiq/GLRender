@@ -126,6 +126,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         Log.d(TAG , "onSurfaceChanged width = " + width +"  height = " + height);
         GLES30.glViewport(0, 0, width, height);
+        GLES30.glEnable(GLES30.GL_DEPTH_TEST); //打开深度测试
+
         mRender.onInitSurface(width , height);
         onInit(width , height);
     }
@@ -136,15 +138,23 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         mRender.clearAllRender();
 
         long t1 = System.currentTimeMillis();
+
         GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
+        final long t5 = System.currentTimeMillis();
         onRender(mRender);
+        final long t6 = System.currentTimeMillis();
+        Log.d(TAG, "view draw content time = " + (t6  - t5));
 
+        final long t3 = System.currentTimeMillis();
         mRender.render();
+        final long t4 = System.currentTimeMillis();
+        Log.d(TAG, "gl call time = " + (t4  - t3));
 
         long t2 = System.currentTimeMillis();
         Log.d(TAG, "render a frame time = " + (t2  - t1));
+
     }
 
 

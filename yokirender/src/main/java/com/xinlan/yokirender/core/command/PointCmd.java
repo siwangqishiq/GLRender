@@ -89,7 +89,7 @@ public class PointCmd extends Cmd {
     @Override
     public void render(Matrix3f matrix) {
         GLES30.glUseProgram(mProgramId);
-        GLES30.glUniformMatrix3fv(mUniformMatrixLoc ,1 , false , matrix.getValues() , 0);
+        GLES30.glUniformMatrix3fv(mUniformMatrixLoc ,1 , true , matrix.getValues() , 0);
 
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glEnableVertexAttribArray(1);

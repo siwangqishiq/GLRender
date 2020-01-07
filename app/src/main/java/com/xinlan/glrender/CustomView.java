@@ -24,10 +24,16 @@ public class CustomView extends YokiView {
 
     private YokiPaint mPaint;
 
+    YokiPaint paintRed = new YokiPaint();
+
+    YokiPaint paintYellow = new YokiPaint();
+
     @Override
     public void onInit(int width, int height) {
         this.setRefreshColor(Color.BLACK);
         mPaint = new YokiPaint();
+        paintRed.color = new Color4f(1.0f , 0.0f , 0.0f , 1.0f);
+        paintYellow.color = new Color4f(1.0f , 1.0f , 0.0f , 1.0f);
         mPaint.color = new Color4f(0.0f, 0.0f, 0.0f, 1.0f);
         mPaint.size = 11.0f;
     }
@@ -75,7 +81,27 @@ public class CustomView extends YokiView {
 //        drawTriangles(canvas);
 //        drawRects(canvas);
 
-        drawRects2(canvas);
+//        drawRects2(canvas);
+//        drawTestDepth(canvas);
+        drawTestDepth2(canvas);
+    }
+
+    private void drawTestDepth2(YokiCanvas canvas) {
+        paintRed.size=8f;
+        canvas.drawLine(100,100,700,700 , paintRed);
+        canvas.drawRect(400,500,200,200 , paintYellow);
+        canvas.drawRect(100,200,200,200 , paintYellow);
+    }
+
+
+    private void drawTestDepth(YokiCanvas canvas){
+        YokiPaint paint2 = new YokiPaint();
+        paint2.color = new Color4f(1.0f, 0.0f, 0.0f, 1.0f);
+        canvas.drawRect(400 , 400 , 200 , 200 , paint2);
+
+        YokiPaint paint = new YokiPaint();
+        paint.color = new Color4f(1.0f, 1.0f, 0.0f, 1.0f);
+        canvas.drawTriangle(200,200 , 500 ,200 , 400 , 500 , paint);
     }
 
     private void drawRects(YokiCanvas canvas) {
@@ -88,8 +114,11 @@ public class CustomView extends YokiView {
         YokiPaint paint = new YokiPaint();
         for(int i = 0 ; i < 2000 ; i+= 20){
             for(int j = 0 ; j < 2000 ; j+=20){
-                paint.color = new Color4f((float)j / 2000, (float)i / 2000, 0.0f, 1.0f);
-                canvas.drawRect(i,j,100,100 , paint);
+                paint.color.x = (float)j / 2000;
+                paint.color.y = (float)i / 2000;
+                paint.color.z =0f;
+                paint.color.w = 1.0f;
+                canvas.drawRect(i,j,20,20 , paint);
             }
         }
     }

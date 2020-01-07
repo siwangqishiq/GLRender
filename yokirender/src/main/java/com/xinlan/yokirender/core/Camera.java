@@ -46,15 +46,15 @@ public class Camera {
         //mMatrix.setIdentity();
         mMatrix.m00 = 2 / viewWidth;
         mMatrix.m01 = 0f;
-        mMatrix.m02 = 0f;
+        mMatrix.m02 = (-2*x) / viewWidth - 1;
 
         mMatrix.m10 = 0f;
         mMatrix.m11 = 2/ viewHeight;
-        mMatrix.m12 = 0f;
+        mMatrix.m12 = (-2 * y) / viewHeight - 1;
 
-        mMatrix.m20 = (-2*x) / viewWidth - 1;
-        mMatrix.m21 = (-2 * y) / viewHeight - 1;
-        mMatrix.m22 = 0;
+        mMatrix.m20 = 0;
+        mMatrix.m21 = 0;
+        mMatrix.m22 = 1;
     }
 
     /**
