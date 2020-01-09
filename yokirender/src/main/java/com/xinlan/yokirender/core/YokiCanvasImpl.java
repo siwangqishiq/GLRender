@@ -87,7 +87,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, YokiPaint paint) {
         decreseZorder();
         final TriangleCmd cmd = mCmdPool.obtainTriangleCmd();
-        cmd.update(x1 , y1 , x2 , y2 , x3 , y3 , mZorder ,paint);
+        cmd.appendRender(x1 , y1 , x2 , y2 , x3 , y3 , mZorder ,paint);
 
         addRenderCmd(cmd);
     }

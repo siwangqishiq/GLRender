@@ -25,7 +25,7 @@ public class CmdPools {
     public void initCmds(){
         mPointCmdPool = new PointCmdPool(INIT_SIZE);
         mLineCmdPool = new LineCmdPool(INIT_SIZE);
-        mTriangleCmdPool = new TriangleCmdPool(INIT_SIZE);
+        mTriangleCmdPool = new TriangleCmdPool(16);
         mRectCmdPool = new RectCmdPool(INIT_SIZE);
     }
 

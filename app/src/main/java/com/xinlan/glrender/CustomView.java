@@ -75,22 +75,49 @@ public class CustomView extends YokiView {
         return ret;
     }
 
+    float c_x = 20;
+    float c_y = 20;
+
     @Override
     public void onRender(YokiCanvas canvas) {
-        testPoint(canvas);
+//        testPoint(canvas);
 //        testPoint2(canvas);
-        testPoints3(canvas);
+//        testPoints3(canvas);
 //
 //        testLine(canvas);
 //        testLine2(canvas);
-//
+//        testTriangles2(canvas);
 //        drawTriangles(canvas);
-//
+//        testPoint2(c_x , c_y , canvas);
+
 //        drawRects(canvas);
 //        drawRects2(canvas);
 //
 //        drawTestDepth(canvas);
 //        drawTestDepth2(canvas);
+
+        testBlend(canvas);
+    }
+
+    private void testBlend(YokiCanvas canvas){
+        testPoints3(canvas);
+        drawTriangles(canvas);
+        testPoint2(c_x , c_y , canvas);
+
+        c_x += mRnd.nextFloat();
+        c_y += mRnd.nextFloat();
+    }
+
+    private void testTriangles2(YokiCanvas canvas) {
+        for(int j = 0 ; j < 2000 ; j +=20){
+            for(int i = 0 ; i < 2000;i+=20){
+                mPaint.color.x = mRnd.nextFloat();
+                mPaint.color.y = mRnd.nextFloat();
+                mPaint.color.z = mRnd.nextFloat();
+                mPaint.color.w = 1.0f;
+                canvas.drawTriangle(i,j,i+20,j,i+10,j +20, mPaint);
+            }//end for i
+        }//end for j
     }
 
     private void testPoints3(YokiCanvas canvas) {
@@ -198,14 +225,11 @@ public class CustomView extends YokiView {
         }
     }
 
-    private void testPoint2(YokiCanvas canvas) {
+    private void testPoint2(float c_x ,float c_y , YokiCanvas canvas) {
         mPaint.size = 10;
         mPaint.color.x = 1.0f;
         mPaint.color.y = 1.0f;
         mPaint.color.z = 0.0f;
-
-        float c_x = 400;
-        float c_y = 300;
 
         float radius = 200;
         for (int i = 0; i < 360; i++) {

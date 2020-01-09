@@ -15,8 +15,7 @@ import java.nio.FloatBuffer;
  */
 public class PointCmd extends Cmd {
     public static final String RENDER_POINT = "_render_point";
-
-    public final int ELEMENT_COUNT = 2048; //渲染指令可渲染顶点数量
+    public final int ELEMENT_COUNT = 2048; //渲染指令可渲染元素数量
 
     public static PointCmd newInstance() {
         PointCmd cmd = new PointCmd();
@@ -27,10 +26,6 @@ public class PointCmd extends Cmd {
     private FloatBuffer mPosBuf;
     private FloatBuffer mColorBuf;
     private FloatBuffer mSizeBuf;
-
-//    private float pos[] = new float[3];
-//    private float color[] = new float[4];
-//    private float size = 4.0f;
 
     private int mPosBufId;
     private int mColorBufId;
@@ -128,6 +123,8 @@ public class PointCmd extends Cmd {
     @Override
     public void reset() {
         mPosBuf.position(0);
+        mColorBuf.position(0);
+        mSizeBuf.position(0);
         super.reset();
     }
 } //end class
