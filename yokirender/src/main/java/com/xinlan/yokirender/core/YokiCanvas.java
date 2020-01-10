@@ -42,9 +42,13 @@ public interface YokiCanvas {
      */
     void drawRect(float left , float top , float width ,float height , YokiPaint paint);
 
+    /**
+     *  保存堆栈上下文环境
+     */
     void save();
 
     /**
+     *
      *
      * @param degree
      */
@@ -58,11 +62,34 @@ public interface YokiCanvas {
      */
     void rotate(float centerX , float centerY , float degree);
 
-//    void scale(float scaleX , float scaleY);
+    /**
+     *
+     * @param scaleX
+     * @param scaleY
+     */
+    void scale(float scaleX , float scaleY);
 
+    /**
+     *
+     * @param scale
+     */
+    void scale(float scale);
+
+    /**
+     *
+     * @param dx
+     * @param dy
+     */
     void translate(float dx , float dy);
 
+    /**
+     * 恢复变换堆栈
+     */
     void restore();
 
+    /**
+     *
+     * @return
+     */
     Camera getCamera();
 }

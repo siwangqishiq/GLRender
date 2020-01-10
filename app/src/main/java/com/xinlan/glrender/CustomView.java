@@ -98,6 +98,54 @@ public class CustomView extends YokiView {
 //        testSaveAndRestore2(canvas);
 //        testSaveAndRestore3(canvas);
 //        testSaveAndRestore4(canvas);
+        testSaveAndRestore5(canvas);
+    }
+
+    private void testSaveAndRestore5(YokiCanvas canvas) {
+        float center_x = getWidth() / 2;
+        float center_y = getHeight() / 2;
+
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 0.0f;
+        mPaint.color.z = 1.0f;
+        mPaint.color.w = 1.0f;
+        mPaint.size = 20;
+
+        canvas.drawTriangle(center_x,center_y,center_x + 200,center_y,center_x,center_y +200 , mPaint);
+        canvas.save();
+        canvas.rotate(center_x,center_y ,45);
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 1.0f;
+        mPaint.color.w = 1.0f;
+        canvas.drawTriangle(center_x,center_y,center_x + 200,center_y,center_x,center_y +200 , mPaint);
+        canvas.restore();
+
+
+
+        canvas.save();
+        canvas.translate(center_x , center_y);
+
+        canvas.save();
+        canvas.rotate(center_x ,center_y , 10);
+        for(int i = 0 ; i < 500 ; i ++){
+            mPaint.color.x = mRnd.nextFloat();
+            mPaint.color.y = mRnd.nextFloat();
+            mPaint.color.z = 1.0f;
+
+            canvas.drawPoint(i , 0, mPaint);
+        }
+        canvas.restore();
+
+        for(int i = 0 ; i < 500 ; i ++){
+            mPaint.color.x = mRnd.nextFloat();
+            mPaint.color.y = mRnd.nextFloat();
+            mPaint.color.z = 1.0f;
+
+            canvas.drawPoint(i , 0, mPaint);
+        }
+
+        canvas.restore();
     }
 
 
@@ -121,7 +169,7 @@ public class CustomView extends YokiView {
         canvas.save();
         canvas.rotate(center_x , center_y , rotateAngle);
         rotateAngle++;
-        canvas.drawTriangle(0,0,0 + 200,0,0,0 +200 , mPaint);
+        canvas.drawTriangle(center_x,center_y,center_x + 200,center_y,center_x,center_y +200 , mPaint);
         canvas.restore();
 
         canvas.save();

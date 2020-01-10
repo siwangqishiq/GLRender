@@ -1,6 +1,7 @@
 package com.xinlan.yokirender.core;
 
 import android.content.Context;
+import android.graphics.Canvas;
 
 import com.xinlan.yokirender.core.command.Cmd;
 import com.xinlan.yokirender.core.command.LineCmd;
@@ -164,14 +165,24 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void rotate(float degree) {
-        mMats[mMatUsingIndex].postRotate(degree);
-        updateResultMatrix();
+        rotate(0, 0, degree);
     }
 
     @Override
     public void rotate(float centerX, float centerY, float degree) {
-        rotate(degree);
-        translate(centerX , centerY);
+        mMats[mMatUsingIndex].postRotate(centerX , centerY ,degree);
+        updateResultMatrix();
+    }
+
+    @Override
+    public void scale(float sc) {
+        scale(sc , sc);
+    }
+
+    @Override
+    public void scale(float scaleX, float scaleY) {
+        mMats[mMatUsingIndex].postScale(scaleX , scaleY);
+        updateResultMatrix();
     }
 
     @Override

@@ -2324,7 +2324,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
         return values;
     }
 
-    public void postTranslate(float dx , float dy) {
+    public void postTranslate(float dx, float dy) {
         prepareHelpMatrix();
 
         mHelpMatrix.m20 += dx;
@@ -2333,7 +2333,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
         mul(mHelpMatrix);
     }
 
-    public void postScale(float scaleX , float scaleY){
+    public void postScale(float scaleX, float scaleY) {
         prepareHelpMatrix();
         mHelpMatrix.m00 = scaleX;
         mHelpMatrix.m11 = scaleY;
@@ -2343,27 +2343,31 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
     }
 
     /**
-     *
      * @param degree
-     *
-     *
      */
-    public void postRotate(float degree){
+    public void postRotate(float c_x, float c_y, float degree) {
         prepareHelpMatrix();
 
-        float sinA = (float)Math.sin(Math.toRadians(degree));
-        float cosA = (float)Math.cos(Math.toRadians(degree));
+        float sinA = (float) Math.sin(Math.toRadians(degree));
+        float cosA = (float) Math.cos(Math.toRadians(degree));
 
         mHelpMatrix.m00 = cosA;
         mHelpMatrix.m01 = sinA;
+        mHelpMatrix.m02 = 0;
+
         mHelpMatrix.m10 = -sinA;
         mHelpMatrix.m11 = cosA;
+        mHelpMatrix.m12 = 0;
+
+        mHelpMatrix.m20 = -c_x * cosA + c_y * sinA +c_x;
+        mHelpMatrix.m21 = -c_x * sinA - c_y * cosA + c_y;
+        mHelpMatrix.m22 = 1.0f;
 
         mul(mHelpMatrix);
     }
 
     private void prepareHelpMatrix() {
-        if(mHelpMatrix == null){
+        if (mHelpMatrix == null) {
             mHelpMatrix = new Matrix3f();
         }
         mHelpMatrix.setIdentity();
