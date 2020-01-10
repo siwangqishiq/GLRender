@@ -1,6 +1,6 @@
 package com.xinlan.yokirender.core;
 
-import com.xinlan.yokirender.core.math.Color4f;
+import com.xinlan.yokirender.math.Color4f;
 
 /**
  * 绘制画笔信息

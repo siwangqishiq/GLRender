@@ -1,10 +1,7 @@
 package com.xinlan.yokirender.core.command;
 
-import android.opengl.GLES30;
-import android.opengl.Matrix;
-
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.math.Matrix3f;
 
 /**
  *   矩形绘制指令

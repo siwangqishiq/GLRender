@@ -1,6 +1,6 @@
 package com.xinlan.yokirender.core;
 
-import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.math.Matrix3f;
 
 /**
  *  图元渲染接口  实现此接口的 都是可以被渲染的图元

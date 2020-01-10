@@ -1,12 +1,10 @@
 package com.xinlan.yokirender.core.command;
 
-import android.icu.text.SymbolTable;
 import android.opengl.GLES30;
 
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.math.Matrix3f;
 import com.xinlan.yokirender.core.shader.ShaderManager;
-import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import java.nio.FloatBuffer;
 

@@ -1,15 +1,14 @@
 package com.xinlan.yokirender.core;
 
 import android.content.Context;
-import android.graphics.Canvas;
 
 import com.xinlan.yokirender.core.command.Cmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.command.RectCmd;
 import com.xinlan.yokirender.core.command.TriangleCmd;
-import com.xinlan.yokirender.core.math.Matrix3f;
-import com.xinlan.yokirender.core.math.Vector3f;
+import com.xinlan.yokirender.math.Matrix3f;
+import com.xinlan.yokirender.math.Vector3f;
 import com.xinlan.yokirender.core.pool.CmdPools;
 import com.xinlan.yokirender.core.shader.ShaderManager;
 

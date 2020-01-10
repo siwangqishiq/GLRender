@@ -1,6 +1,6 @@
 package com.xinlan.yokirender.core;
 
-import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.math.Matrix3f;
 
 /**
  * 虚拟摄像机  记录观察点的位置

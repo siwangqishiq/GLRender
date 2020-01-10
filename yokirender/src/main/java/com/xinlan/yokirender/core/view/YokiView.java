@@ -12,7 +12,7 @@ import com.xinlan.yokirender.core.GLConfig;
 import com.xinlan.yokirender.core.YokiCanvas;
 import com.xinlan.yokirender.core.YokiCanvasImpl;
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.math.Vector4f;
+import com.xinlan.yokirender.math.Vector4f;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;

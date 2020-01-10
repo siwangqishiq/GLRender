@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import com.xinlan.yokirender.core.YokiCanvas;
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.view.YokiView;
-import com.xinlan.yokirender.core.math.Color4f;
+import com.xinlan.yokirender.math.Color4f;
 
 import java.util.Random;
 

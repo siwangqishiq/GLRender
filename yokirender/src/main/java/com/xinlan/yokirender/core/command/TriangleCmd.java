@@ -3,7 +3,7 @@ package com.xinlan.yokirender.core.command;
 import android.opengl.GLES30;
 
 import com.xinlan.yokirender.core.YokiPaint;
-import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.math.Matrix3f;
 import com.xinlan.yokirender.core.shader.ShaderManager;
 
 import java.nio.FloatBuffer;
