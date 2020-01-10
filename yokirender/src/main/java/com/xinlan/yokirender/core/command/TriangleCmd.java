@@ -103,14 +103,15 @@ public class TriangleCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER  , mColorBufId);
         GLES30.glVertexAttribPointer(1 , 4 , GLES30.GL_FLOAT , false ,  4 * Float.BYTES , 0);
 
-        drawArrays();
+        //drawArrays();
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES , 0 , 3 * mIndex);
 
         GLES30.glDisableVertexAttribArray(0);
         GLES30.glDisableVertexAttribArray(1);
     }
 
     protected void drawArrays(){
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES , 0 , 3 * mIndex);
+
     }
 
     @Override

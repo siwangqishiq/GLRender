@@ -3,7 +3,6 @@ package com.xinlan.yokirender.util;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.xinlan.yokirender.core.math.Vector4d;
 import com.xinlan.yokirender.core.math.Vector4f;
 
 import java.nio.ByteBuffer;

@@ -7,6 +7,8 @@ import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.command.RectCmd;
 import com.xinlan.yokirender.core.command.TriangleCmd;
+import com.xinlan.yokirender.core.math.Matrix3f;
+import com.xinlan.yokirender.core.math.Vector3f;
 import com.xinlan.yokirender.core.pool.CmdPools;
 import com.xinlan.yokirender.core.shader.ShaderManager;
 
@@ -24,12 +26,29 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     private CmdPools mCmdPool = new CmdPools();
 
+    //左边变换矩阵栈
+    private static final int MATRIX_STACK_SIZE =16;
+    private Matrix3f mMats[] = new Matrix3f[MATRIX_STACK_SIZE];
+    private int mMatUsingIndex = 0;
+    private Matrix3f mResult = new Matrix3f();
+    private float[] mTransformResults = new float[3];
+    private Vector3f mTmpVec = new Vector3f();
 
     public YokiCanvasImpl(YokiPaint paint) {
         mDefaultPaint = paint;
         if (mDefaultPaint == null) {
             mDefaultPaint = new YokiPaint();
         }
+        initMatrixStack();
+    }
+
+    private void initMatrixStack() {
+        for(int i = 0 ; i < MATRIX_STACK_SIZE ; i++){
+            mMats[i] = new Matrix3f();
+            mMats[i].setIdentity();
+        }//end for i
+        mMatUsingIndex = 0;
+        updateResultMatrix();
     }
 
     public void initEngine(Context context) {
@@ -69,7 +88,8 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawPoint(float x, float y, YokiPaint paint) {
         decreseZorder();
         final PointCmd cmd = mCmdPool.obtainPointCmd();
-        cmd.appendRender(x , y , mZorder , paint);
+        transformPoint(x , y);
+        cmd.appendRender(mTransformResults[0] , mTransformResults[1] , mZorder , paint);
 
         addRenderCmd(cmd);
     }
@@ -78,8 +98,16 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawLine(float x1, float y1, float x2, float y2, YokiPaint paint) {
         decreseZorder();
         final LineCmd cmd = mCmdPool.obtainLineCmd();
-        cmd.update(x1 ,  y1 , x2 , y2 , mZorder , paint);
 
+        transformPoint(x1 , y1);
+        float _x1 = mTransformResults[0];
+        float _y1 = mTransformResults[1];
+
+        transformPoint(x2 , y2);
+        float _x2 = mTransformResults[0];
+        float _y2 = mTransformResults[1];
+
+        cmd.update(_x1 , _y1 , _x2 , _y2 , mZorder , paint);
         addRenderCmd(cmd);
     }
 
@@ -87,7 +115,20 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, YokiPaint paint) {
         decreseZorder();
         final TriangleCmd cmd = mCmdPool.obtainTriangleCmd();
-        cmd.appendRender(x1 , y1 , x2 , y2 , x3 , y3 , mZorder ,paint);
+
+        transformPoint(x1 , y1);
+        float _x1 = mTransformResults[0];
+        float _y1 = mTransformResults[1];
+
+        transformPoint(x2 , y2);
+        float _x2 = mTransformResults[0];
+        float _y2 = mTransformResults[1];
+
+        transformPoint(x3 , y3);
+        float _x3 = mTransformResults[0];
+        float _y3 = mTransformResults[1];
+
+        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3 , _y3 , mZorder ,paint);
 
         addRenderCmd(cmd);
     }
@@ -101,30 +142,61 @@ public class YokiCanvasImpl implements YokiCanvas {
         addRenderCmd(cmd);
     }
 
-//    @Override
-//    public void save() {
-//
-//    }
-//
-//    @Override
-//    public void rotate(float degree, float centerX, float centerY) {
-//
-//    }
-//
-//    @Override
-//    public void scale(float scaleX, float scaleY) {
-//
-//    }
-//
-//    @Override
-//    public void transform(float deltaX, float deltaY) {
-//
-//    }
-//
-//    @Override
-//    public void restore() {
-//
-//    }
+    @Override
+    public void restore() {
+        mMatUsingIndex--;
+        if(mMatUsingIndex < -1){
+            throw new RuntimeException("can not restore brfore any call save() !");
+        }
+
+        updateResultMatrix();
+    }
+
+    @Override
+    public void save() { //坐标系入栈
+        mMatUsingIndex++;
+        if(mMatUsingIndex >= mMats.length) {
+            throw new RuntimeException("can not restore brfore any call save() !");
+        }
+        mMats[mMatUsingIndex].setIdentity();
+        updateResultMatrix();
+    }
+
+    @Override
+    public void translate(float dx, float dy) {
+        mMats[mMatUsingIndex].postTranslate(dx , dy);
+        updateResultMatrix();
+    }
+
+    /**
+     *  根据当前矩阵栈变换顶点坐标
+     *
+     * @param _x
+     * @param _y
+     */
+    private void transformPoint(float _x , float _y) {
+        mTmpVec.x = _x;
+        mTmpVec.y = _y;
+        mTmpVec.z = 1.0f;
+
+        mTmpVec.multiMatrix(mResult);
+
+        mTransformResults[0] = mTmpVec.x;
+        mTransformResults[1] = mTmpVec.y;
+    }
+
+    /**
+     *  更新坐标系变换矩阵
+     */
+    private void updateResultMatrix() {
+        mResult.setIdentity();
+
+        if(mMatUsingIndex >= 0){
+            for(int i = 0 ; i <= mMatUsingIndex;i++){
+                mResult.mul(mMats[i]);
+            }//end for i
+        }
+    }
 
     @Override
     public Camera getCamera() {

@@ -33,8 +33,10 @@ package com.xinlan.yokirender.core.math;
  */
 public class Matrix3f implements java.io.Serializable, Cloneable {
 
-    // Compatible with 1.1
-    static final long serialVersionUID = 329697160112089834L;
+    public static final long serialVersionUID = 329697160112089834L;
+
+    private Matrix3f mHelpMatrix;
+
 
     /**
      * The first matrix element in the first row.
@@ -117,7 +119,6 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
         this.m20 = m20;
         this.m21 = m21;
         this.m22 = m22;
-
     }
 
     /**
@@ -2112,8 +2113,6 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
      * Creates a new object of the same class as this object.
      *
      * @return a clone of this instance.
-     * @throws OutOfMemoryError if there is not enough memory.
-     * @see Cloneable
      * @since vecmath 1.3
      */
     @Override
@@ -2324,4 +2323,50 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 
         return values;
     }
+
+    public void postTranslate(float dx , float dy) {
+        prepareHelpMatrix();
+
+        mHelpMatrix.m20 += dx;
+        mHelpMatrix.m21 += dy;
+
+        mul(mHelpMatrix);
+    }
+
+    public void postScale(float scaleX , float scaleY){
+        prepareHelpMatrix();
+        mHelpMatrix.m00 = scaleX;
+        mHelpMatrix.m11 = scaleY;
+        mHelpMatrix.m22 = 1.0f;
+
+        mul(mHelpMatrix);
+    }
+
+    /**
+     *
+     * @param degree
+     *
+     *
+     */
+    public void postRotate(float degree){
+        prepareHelpMatrix();
+
+        float sinA = (float)Math.sin(Math.toRadians(degree));
+        float cosA = (float)Math.cos(Math.toRadians(degree));
+
+        mHelpMatrix.m00 = cosA;
+        mHelpMatrix.m01 = -sinA;
+        mHelpMatrix.m10 = sinA;
+        mHelpMatrix.m11 = cosA;
+
+        mul(mHelpMatrix);
+    }
+
+    private void prepareHelpMatrix() {
+        if(mHelpMatrix == null){
+            mHelpMatrix = new Matrix3f();
+        }
+        mHelpMatrix.setIdentity();
+    }
+
 }

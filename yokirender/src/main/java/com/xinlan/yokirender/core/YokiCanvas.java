@@ -42,15 +42,15 @@ public interface YokiCanvas {
      */
     void drawRect(float left , float top , float width ,float height , YokiPaint paint);
 
-//    void save();
-//
+    void save();
+
 //    void rotate(float degree , float centerX , float centerY);
-//
+
 //    void scale(float scaleX , float scaleY);
-//
-//    void transform(float deltaX , float deltaY);
-//
-//    void restore();
+
+    void translate(float dx , float dy);
+
+    void restore();
 
     Camera getCamera();
 }
