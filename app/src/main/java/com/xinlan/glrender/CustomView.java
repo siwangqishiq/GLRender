@@ -96,7 +96,38 @@ public class CustomView extends YokiView {
 //        testBlend(canvas);
 //        testSaveAndRestore(canvas);
 //        testSaveAndRestore2(canvas);
-        testSaveAndRestore3(canvas);
+//        testSaveAndRestore3(canvas);
+//        testSaveAndRestore4(canvas);
+    }
+
+
+
+    int rotateAngle;
+    private void testSaveAndRestore4(YokiCanvas canvas) {
+        float center_x = getWidth() / 2;
+        float center_y = getHeight() / 2;
+
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 0.0f;
+        mPaint.color.z = 0.0f;
+        mPaint.color.w = 1.0f;
+        canvas.drawTriangle(center_x,center_y,center_x + 200,center_y,center_x,center_y +200 , mPaint);
+
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 0.0f;
+        mPaint.color.w = 1.0f;
+
+        canvas.save();
+        canvas.rotate(center_x , center_y , rotateAngle);
+        rotateAngle++;
+        canvas.drawTriangle(0,0,0 + 200,0,0,0 +200 , mPaint);
+        canvas.restore();
+
+        canvas.save();
+        canvas.rotate(rotateAngle);
+        canvas.drawTriangle(0,0,0 + 200,0,0,0 +200 , mPaint);
+        canvas.restore();
     }
 
     private void testSaveAndRestore3(YokiCanvas canvas) {

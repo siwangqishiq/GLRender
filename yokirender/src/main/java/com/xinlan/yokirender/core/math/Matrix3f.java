@@ -2355,8 +2355,8 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
         float cosA = (float)Math.cos(Math.toRadians(degree));
 
         mHelpMatrix.m00 = cosA;
-        mHelpMatrix.m01 = -sinA;
-        mHelpMatrix.m10 = sinA;
+        mHelpMatrix.m01 = sinA;
+        mHelpMatrix.m10 = -sinA;
         mHelpMatrix.m11 = cosA;
 
         mul(mHelpMatrix);

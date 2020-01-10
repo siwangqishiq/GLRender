@@ -44,7 +44,19 @@ public interface YokiCanvas {
 
     void save();
 
-//    void rotate(float degree , float centerX , float centerY);
+    /**
+     *
+     * @param degree
+     */
+    void rotate(float degree);
+
+    /**
+     *
+     * @param centerX
+     * @param centerY
+     * @param degree
+     */
+    void rotate(float centerX , float centerY , float degree);
 
 //    void scale(float scaleX , float scaleY);
 

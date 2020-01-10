@@ -163,6 +163,18 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     @Override
+    public void rotate(float degree) {
+        mMats[mMatUsingIndex].postRotate(degree);
+        updateResultMatrix();
+    }
+
+    @Override
+    public void rotate(float centerX, float centerY, float degree) {
+        rotate(degree);
+        translate(centerX , centerY);
+    }
+
+    @Override
     public void translate(float dx, float dy) {
         mMats[mMatUsingIndex].postTranslate(dx , dy);
         updateResultMatrix();
