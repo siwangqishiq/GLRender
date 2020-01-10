@@ -128,6 +128,10 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         GLES30.glViewport(0, 0, width, height);
         GLES30.glEnable(GLES30.GL_DEPTH_TEST); //打开深度测试
 
+        //开启blend混合方式  以正确渲染半透明的图片
+        GLES30.glEnable(GLES30.GL_BLEND);
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
+
         mRender.onInitSurface(width , height);
         onInit(width , height);
     }
@@ -154,7 +158,6 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
         long t2 = System.currentTimeMillis();
         Log.d(TAG, "render a frame time = " + (t2  - t1));
-
     }
 
 
