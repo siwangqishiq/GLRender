@@ -21,8 +21,6 @@ public class PointCmd extends Cmd {
         return cmd;
     }
 
-    private FloatBuffer mPosBuf;
-    private FloatBuffer mColorBuf;
     private FloatBuffer mSizeBuf;
 
     private int mPosBufId;

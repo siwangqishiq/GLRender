@@ -30,19 +30,19 @@ public class CmdPools {
     }
 
     public PointCmd obtainPointCmd(){
-       return mPointCmdPool.obtain(0);
+       return mPointCmdPool.obtainForBatch();
     }
 
 
     public LineCmd obtainLineCmd() {
-        return mLineCmdPool.obtain();
+        return mLineCmdPool.obtainForBatch();
     }
 
     public TriangleCmd obtainTriangleCmd(){
-        return mTriangleCmdPool.obtain();
+        return mTriangleCmdPool.obtainForBatch();
     }
 
     public RectCmd obtainRectCmd(){
-        return mRectCmdPool.obtain();
+        return mRectCmdPool.obtainForBatch();
     }
 }//end class

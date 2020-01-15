@@ -100,6 +100,21 @@ public class CustomView extends YokiView {
 //        testSaveAndRestore4(canvas);
 //        testSaveAndRestore5(canvas);
 //        testSaveAndRestore6(canvas);
+
+        testRect(canvas);
+    }
+
+    private void testRect(YokiCanvas canvas){
+        int cube = 10;
+        for(int i = 0 ; i < 1000 ;i+=cube){
+            for(int j = 0 ; j< 1000;j+=cube){
+                mPaint.color.x = mRnd.nextFloat();
+                mPaint.color.y = mRnd.nextFloat();
+                mPaint.color.z = mRnd.nextFloat();
+                mPaint.color.w = mRnd.nextFloat();
+                canvas.drawRect(i , j , cube , cube , mPaint);
+            }//end for j;
+        }//end for i
     }
 
     private void testSaveAndRestore6(YokiCanvas canvas) {

@@ -8,6 +8,7 @@ import com.xinlan.yokirender.math.Vector4f;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class OpenglEsUtils {
     private static final String TAG = "OpenglEsUtils";
@@ -58,6 +59,19 @@ public class OpenglEsUtils {
         bb.put(array);
         bb.position(0);
         return bb;
+    }
+
+    /**
+     *  native heap分配内存
+     * @param size
+     * @return
+     */
+    public static IntBuffer allocateIntBuf(final int size){
+        ByteBuffer bb = ByteBuffer.allocateDirect(size * Integer.BYTES)
+                .order(ByteOrder.nativeOrder());
+        IntBuffer buf = bb.asIntBuffer();
+        buf.position(0);
+        return buf;
     }
 
     public static Vector4f convertColor(int color) {

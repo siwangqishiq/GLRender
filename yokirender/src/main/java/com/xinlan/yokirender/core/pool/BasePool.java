@@ -24,6 +24,22 @@ public abstract class BasePool<T extends Cmd> {
 
     public abstract T createNewInstance();
 
+    public T obtainForBatch() {
+        T cmd = null;
+
+        for(int i = 0,len = mObjList.size() ; i < len;i++){
+            if(!mObjList.get(i).isFull){
+                cmd = mObjList.get(i);
+                break;
+            }
+        }
+        if(cmd == null){
+            cmd = createNewInstance();
+            mObjList.add(cmd);
+        }
+        return cmd;
+    }
+
     public T obtain() {
         T result = null;
 

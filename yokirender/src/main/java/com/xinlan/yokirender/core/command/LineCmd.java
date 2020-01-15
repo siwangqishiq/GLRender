@@ -25,9 +25,6 @@ public class LineCmd extends Cmd {
     private int mPosBufId;
     private int mColorBufId;
 
-    private FloatBuffer mPosBuf; //直线坐标数据
-    private FloatBuffer mColorBuf; //直线颜色
-
     private float mLineWidth;
 
     @Override

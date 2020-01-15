@@ -137,9 +137,10 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawRect(float left, float top, float width, float height, YokiPaint paint) {
         decreseZorder();
         final RectCmd cmd = mCmdPool.obtainRectCmd();
-        cmd.update(left , top , width , height , mZorder,paint);
+//        cmd.update(left , top , width , height , mZorder,paint);
+//
+//        addRenderCmd(cmd);
 
-        addRenderCmd(cmd);
     }
 
     @Override

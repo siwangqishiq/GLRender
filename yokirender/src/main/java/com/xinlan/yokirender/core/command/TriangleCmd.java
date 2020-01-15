@@ -24,11 +24,6 @@ public class TriangleCmd extends Cmd {
         return cmd;
     }
 
-    private int mPosBufId;
-    private int mColorBufId;
-
-    protected FloatBuffer mPosBuf; //坐标数据
-    protected FloatBuffer mColorBuf; //颜色
 
     @Override
     public void init() {
@@ -63,7 +58,7 @@ public class TriangleCmd extends Cmd {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER , 0);
     }
 
-    public void appendRender(float x1 , float y1 , float x2 , float y2 , float x3 , float y3 ,float zOrder, YokiPaint paint){
+    public void appendRender(float x1 , float y1 , float x2 , float y2 , float x3 , float y3 ,float zOrder, YokiPaint paint) {
         mPosBuf.put(x1);
         mPosBuf.put(y1);
         mPosBuf.put(zOrder);

@@ -12,4 +12,21 @@ public class RectCmdPool extends BasePool<RectCmd> {
     public RectCmd createNewInstance() {
         return RectCmd.newInstance();
     }
+
+    @Override
+    public RectCmd obtain() {
+        RectCmd cmd = null;
+
+        for(int i = 0,len = mObjList.size() ; i < len;i++){
+            if(!mObjList.get(i).isFull){
+                cmd = mObjList.get(i);
+                break;
+            }
+        }
+        if(cmd == null){
+            cmd = createNewInstance();
+            mObjList.add(cmd);
+        }
+        return cmd;
+    }
 }
