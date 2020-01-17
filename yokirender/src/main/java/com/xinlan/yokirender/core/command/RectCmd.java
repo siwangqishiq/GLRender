@@ -7,6 +7,7 @@ import com.xinlan.yokirender.core.shader.ShaderManager;
 import com.xinlan.yokirender.math.Matrix3f;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 /**
@@ -25,7 +26,8 @@ public class RectCmd extends Cmd {
     protected int mIndicesBufId;
     protected IntBuffer mIndicesBuf;
 
-    protected int mVertexCount = 0; //顶点计数
+    protected int mVertexIndex = 0; //顶点计数
+    protected int mVertexIndexCount = 0; //顶点索引计数
 
     @Override
     public void init() {
@@ -54,30 +56,34 @@ public class RectCmd extends Cmd {
         mPosBuf.put(_x1);
         mPosBuf.put(_y1);
         mPosBuf.put(zOrder);
-        mIndicesBuf.put(mVertexCount);
-        mVertexCount++;
+        mIndicesBuf.put(mVertexIndex);
+        mVertexIndex++;
+        mVertexIndexCount++;
 
         mPosBuf.put(_x2);
         mPosBuf.put(_y2);
         mPosBuf.put(zOrder);
-        mIndicesBuf.put(mVertexCount);
-        mVertexCount++;
+        mIndicesBuf.put(mVertexIndex);
+        mVertexIndex++;
+        mVertexIndexCount++;
 
         mPosBuf.put(_x3);
         mPosBuf.put(_y3);
         mPosBuf.put(zOrder);
-        mIndicesBuf.put(mVertexCount);
-        mVertexCount++;
+        mIndicesBuf.put(mVertexIndex);
+        mVertexIndex++;
+        mVertexIndexCount++;
 
         mPosBuf.put(_x4);
         mPosBuf.put(_y4);
         mPosBuf.put(zOrder);
-        mIndicesBuf.put(mVertexCount);
-        mVertexCount++;
+        mIndicesBuf.put(mVertexIndex);
+        mVertexIndex++;
+        mVertexIndexCount++;
 
         //插入标识索引失效的标志位
-        mIndicesBuf.put(mVertexCount);
-        mVertexCount++;
+        mIndicesBuf.put(0xFFFFFFFF);
+        mVertexIndexCount++;
 
         for (int i = 0; i < 4; i++) {
             mColorBuf.put(paint.color.x);
@@ -107,9 +113,10 @@ public class RectCmd extends Cmd {
         mIndicesBuf.position(0);
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, mIndicesBufId);
         GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER,
-                mVertexCount * Integer.BYTES, mIndicesBuf, GLES30.GL_DYNAMIC_DRAW);
+                mVertexIndexCount * Integer.BYTES, mIndicesBuf, GLES30.GL_DYNAMIC_DRAW);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
+        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER , 0);
     }
 
 
@@ -132,7 +139,12 @@ public class RectCmd extends Cmd {
         GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 4 * Float.BYTES, 0);
 
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER , mIndicesBufId);
-        GLES30.glDrawElements(GLES30.GL_TRIANGLE_FAN, mIndex, GLES30.GL_UNSIGNED_INT, 0);
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_FAN, mVertexIndexCount, GLES30.GL_UNSIGNED_INT, 0);
+//        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN , 0 ,4);
+
+
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
+        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, 0);
 
         GLES30.glDisableVertexAttribArray(0);
         GLES30.glDisableVertexAttribArray(1);
@@ -142,7 +154,8 @@ public class RectCmd extends Cmd {
     @Override
     public void reset() {
        super.reset();
-       mVertexCount = 0;
+       mVertexIndex = 0;
+        mVertexIndexCount = 0;
     }
 
 }//end class

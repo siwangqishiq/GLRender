@@ -74,6 +74,19 @@ public class OpenglEsUtils {
         return buf;
     }
 
+    /**
+     *  native heap分配内存
+     * @param size
+     * @return
+     */
+    public static ByteBuffer allocateBuf(final int size){
+        ByteBuffer buf = ByteBuffer.allocateDirect(size)
+                .order(ByteOrder.nativeOrder());
+        buf.position(0);
+        return buf;
+    }
+
+
     public static Vector4f convertColor(int color) {
         int r = Color.red(color);
         int g = Color.green(color);
