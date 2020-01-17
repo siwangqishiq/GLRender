@@ -27,6 +27,13 @@ public abstract  class Cmd implements IRender {
     protected FloatBuffer mPosBuf; //坐标数据
     protected FloatBuffer mColorBuf; //颜色
 
+    public void increaseIndex(final int elementCount) {
+        mIndex++;
+        if(mIndex >= elementCount){
+            isFull = true;
+        }
+    }
+
     @Override
     public void reset() {
         used = false;

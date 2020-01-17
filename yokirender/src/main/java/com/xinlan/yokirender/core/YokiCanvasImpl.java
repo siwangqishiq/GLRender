@@ -137,10 +137,34 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawRect(float left, float top, float width, float height, YokiPaint paint) {
         decreseZorder();
         final RectCmd cmd = mCmdPool.obtainRectCmd();
-//        cmd.update(left , top , width , height , mZorder,paint);
-//
-//        addRenderCmd(cmd);
 
+        float x1 = left;
+        float y1 = top;
+        transformPoint(x1 , y1);
+        float _x1 = mTransformResults[0];
+        float _y1 = mTransformResults[1];
+
+        float x2 = left +width;
+        float y2 = top;
+        transformPoint(x2 , y2);
+        float _x2 = mTransformResults[0];
+        float _y2 = mTransformResults[1];
+
+
+        float x3 = left + width;
+        float y3 = top - height;
+        transformPoint(x3 , y3);
+        float _x3 = mTransformResults[0];
+        float _y3 = mTransformResults[1];
+
+        float x4 = left;
+        float y4 = top - height;
+        transformPoint(x4 , y4);
+        float _x4 = mTransformResults[0];
+        float _y4 = mTransformResults[1];
+
+        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3,_y3 , _x4 , _y4 , mZorder , paint);
+        addRenderCmd(cmd);
     }
 
     @Override

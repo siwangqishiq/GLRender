@@ -76,10 +76,7 @@ public class TriangleCmd extends Cmd {
             mColorBuf.put(paint.color.w);
         }//end for i
 
-        mIndex++;
-        if(mIndex >= ELEMENT_COUNT){
-            isFull = true;
-        }
+        increaseIndex(ELEMENT_COUNT);
     }
 
     @Override

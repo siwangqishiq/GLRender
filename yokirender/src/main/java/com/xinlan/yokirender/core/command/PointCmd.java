@@ -82,11 +82,7 @@ public class PointCmd extends Cmd {
 
         mSizeBuf.put(paint.size);
 
-        mIndex++;
-
-        if(mIndex >= ELEMENT_COUNT){
-            isFull = true;
-        }
+       increaseIndex(ELEMENT_COUNT);
     }
 
     @Override
