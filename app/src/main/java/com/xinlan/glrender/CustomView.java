@@ -101,9 +101,22 @@ public class CustomView extends YokiView {
 //        testSaveAndRestore5(canvas);
 //        testSaveAndRestore6(canvas);
 
-        testRect(canvas);
-        testRect2(canvas);
-        testRect3(canvas);
+//        testRect(canvas);
+//        testRect2(canvas);
+//        testRect3(canvas);
+        testCircle(canvas);
+    }
+
+    private void testCircle(YokiCanvas canvas) {
+        float x = getWidth() / 2;
+        float y = getHeight() / 2;
+
+        mPaint.color.x = 0.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 0.0f;
+        mPaint.color.w = 0.5f;
+
+        canvas.drawCircle(x , y , 200 , mPaint);
     }
 
     int angle = 0;

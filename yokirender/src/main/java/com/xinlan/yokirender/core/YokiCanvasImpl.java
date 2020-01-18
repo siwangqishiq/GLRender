@@ -2,6 +2,7 @@ package com.xinlan.yokirender.core;
 
 import android.content.Context;
 
+import com.xinlan.yokirender.core.command.CircleCmd;
 import com.xinlan.yokirender.core.command.Cmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
@@ -159,6 +160,39 @@ public class YokiCanvasImpl implements YokiCanvas {
 
         float x4 = left;
         float y4 = top - height;
+        transformPoint(x4 , y4);
+        float _x4 = mTransformResults[0];
+        float _y4 = mTransformResults[1];
+
+        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3,_y3 , _x4 , _y4 , mZorder , paint);
+        addRenderCmd(cmd);
+    }
+
+    @Override
+    public void drawCircle(float centerX, float centerY, float radius , YokiPaint paint) {
+        decreseZorder();
+        final CircleCmd cmd = mCmdPool.obtainCircleCmd();
+
+        float x1 = centerX - radius;
+        float y1 = centerY +radius;
+        transformPoint(x1 , y1);
+        float _x1 = mTransformResults[0];
+        float _y1 = mTransformResults[1];
+
+        float x2 = centerX + radius;
+        float y2 = centerY + radius;
+        transformPoint(x2 , y2);
+        float _x2 = mTransformResults[0];
+        float _y2 = mTransformResults[1];
+
+        float x3 = centerX + radius;;
+        float y3 = centerY - radius;;
+        transformPoint(x3 , y3);
+        float _x3 = mTransformResults[0];
+        float _y3 = mTransformResults[1];
+
+        float x4 = centerX - radius;
+        float y4 = centerY - radius;
         transformPoint(x4 , y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];

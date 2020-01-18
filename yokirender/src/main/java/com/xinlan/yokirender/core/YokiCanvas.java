@@ -43,6 +43,14 @@ public interface YokiCanvas {
     void drawRect(float left , float top , float width ,float height , YokiPaint paint);
 
     /**
+     *
+     * @param centerX
+     * @param centerY
+     * @param radius
+     */
+    void drawCircle(float centerX , float centerY , float radius , YokiPaint paint);
+
+    /**
      *  保存堆栈上下文环境
      */
     void save();

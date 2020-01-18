@@ -1,5 +1,6 @@
 package com.xinlan.yokirender.core.pool;
 
+import com.xinlan.yokirender.core.command.CircleCmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.command.RectCmd;
@@ -18,6 +19,7 @@ public class CmdPools {
     private LineCmdPool mLineCmdPool;
     private TriangleCmdPool mTriangleCmdPool;
     private RectCmdPool mRectCmdPool;
+    private CircleCmdPool mCircleCmdPool;
 
     public CmdPools(){
     }
@@ -25,14 +27,14 @@ public class CmdPools {
     public void initCmds(){
         mPointCmdPool = new PointCmdPool(INIT_SIZE);
         mLineCmdPool = new LineCmdPool(INIT_SIZE);
-        mTriangleCmdPool = new TriangleCmdPool(16);
+        mTriangleCmdPool = new TriangleCmdPool(INIT_SIZE);
         mRectCmdPool = new RectCmdPool(INIT_SIZE);
+        mCircleCmdPool = new CircleCmdPool(INIT_SIZE);
     }
 
     public PointCmd obtainPointCmd(){
        return mPointCmdPool.obtainForBatch();
     }
-
 
     public LineCmd obtainLineCmd() {
         return mLineCmdPool.obtainForBatch();
@@ -44,5 +46,9 @@ public class CmdPools {
 
     public RectCmd obtainRectCmd(){
         return mRectCmdPool.obtainForBatch();
+    }
+
+    public CircleCmd obtainCircleCmd() {
+        return mCircleCmdPool.obtainForBatch();
     }
 }//end class

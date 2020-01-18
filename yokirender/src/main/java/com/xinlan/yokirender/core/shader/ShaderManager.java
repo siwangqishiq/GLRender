@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.xinlan.yokirender.R;
+import com.xinlan.yokirender.core.command.CircleCmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.command.TriangleCmd;
@@ -35,10 +36,18 @@ public class ShaderManager {
     private ShaderManager(){
     }
 
+    /**
+     *  编译shader代码 为绘制指令准备
+     *   绘制指令会导入编译好的shader
+     *
+     *
+     * @param ctx
+     */
     public void initShader(Context ctx){
         loadShader(ctx , PointCmd.RENDER_POINT , R.raw.render_point_vertex , R.raw.render_point_fragment);
         loadShader(ctx , LineCmd.RENDER_LINE , R.raw.render_line_vertex , R.raw.render_line_fragment);
         loadShader(ctx , TriangleCmd.RENDER_TRIANGLE , R.raw.render_triangle_vertex , R.raw.render_triangle_fragment);
+        loadShader(ctx , CircleCmd.RENDER_SOLID_CIRCLE, R.raw.render_circle_vertex , R.raw.render_circle_fragment);
     }
 
 

@@ -154,6 +154,7 @@ public class RectCmd extends Cmd {
     @Override
     public void reset() {
        super.reset();
+        mIndicesBuf.position(0);
        mVertexIndex = 0;
         mVertexIndexCount = 0;
     }
