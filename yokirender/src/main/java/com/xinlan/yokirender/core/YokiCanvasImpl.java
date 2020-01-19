@@ -1,6 +1,7 @@
 package com.xinlan.yokirender.core;
 
 import android.content.Context;
+import android.graphics.RectF;
 
 import com.xinlan.yokirender.core.command.CircleCmd;
 import com.xinlan.yokirender.core.command.Cmd;
@@ -199,6 +200,11 @@ public class YokiCanvasImpl implements YokiCanvas {
 
         cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3,_y3 , _x4 , _y4 , mZorder , paint);
         addRenderCmd(cmd);
+    }
+
+    @Override
+    public void drawSprite(YokiBit bit, RectF srcRect, RectF dstRect, YokiPaint paint) {
+
     }
 
     @Override

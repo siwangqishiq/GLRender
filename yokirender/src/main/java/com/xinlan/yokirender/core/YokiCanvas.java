@@ -1,5 +1,10 @@
 package com.xinlan.yokirender.core;
 
+import android.graphics.RectF;
+
+/**
+ *
+ */
 public interface YokiCanvas {
 
     /**
@@ -49,6 +54,16 @@ public interface YokiCanvas {
      * @param radius
      */
     void drawCircle(float centerX , float centerY , float radius , YokiPaint paint);
+
+    /**
+     *  绘制指定位图
+     *
+     * @param bit
+     * @param srcRect
+     * @param dstRect
+     * @param paint
+     */
+    void drawSprite(YokiBit bit , RectF srcRect ,RectF dstRect , YokiPaint paint);
 
     /**
      *  保存堆栈上下文环境

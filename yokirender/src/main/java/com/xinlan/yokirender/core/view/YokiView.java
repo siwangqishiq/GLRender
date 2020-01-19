@@ -3,12 +3,15 @@ package com.xinlan.yokirender.core.view;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
+import android.graphics.Bitmap;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.xinlan.yokirender.core.BitManager;
 import com.xinlan.yokirender.core.GLConfig;
+import com.xinlan.yokirender.core.YokiBit;
 import com.xinlan.yokirender.core.YokiCanvas;
 import com.xinlan.yokirender.core.YokiCanvasImpl;
 import com.xinlan.yokirender.core.YokiPaint;
@@ -30,7 +33,10 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     private Vector4f mRefreshColor = new Vector4f();
 
     private YokiPaint mDefaultPaint;
+
     private YokiCanvasImpl mRender;
+
+    private BitManager mBitManager;
 
     public YokiView(Context context) {
         super(context);
@@ -60,9 +66,18 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         setRenderer(this);
 //        setRenderMode(RENDERMODE_WHEN_DIRTY);
         setRenderMode(RENDERMODE_CONTINUOUSLY);
-
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
+        mBitManager = BitManager.newInstance();
+    }
+
+    /**
+     *  将位图资源导入GPU中
+     * @param bitmap
+     * @return
+     */
+    public YokiBit loadBit(Bitmap bitmap){
+        return mBitManager.loadYokiBit(bitmap);
     }
 
 
