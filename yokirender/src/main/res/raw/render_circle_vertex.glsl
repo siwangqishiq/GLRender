@@ -14,13 +14,15 @@ out vec4 vColor;
 out float vRadius;
 out vec2 vCenter;
 
+
 void main() {
     vec4 pos = vec4( uMatrix * vec3(aPos.xy , 1f) , 1.0f);
+    //vec4 center = vec4(uMatrix * vec3(aCenter.xy , 1.0f) , 1.0f);
     pos.z = aPos.z;
     gl_Position = pos;
 
-    vPos = pos.xy;
+    vPos = aPos.xy;
     vColor = aColor;
     vRadius = aRadius;
-    vCenter = aCenter;
+    vCenter = aCenter.xy;
 }

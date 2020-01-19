@@ -34,7 +34,7 @@ public class CustomView extends YokiView {
 
     @Override
     public void onInit(int width, int height) {
-        this.setRefreshColor(Color.BLACK);
+        this.setRefreshColor(Color.WHITE);
         mPaint = new YokiPaint();
         paintRed.color = new Color4f(1.0f, 0.0f, 0.0f, 1.0f);
         paintYellow.color = new Color4f(1.0f, 1.0f, 0.0f, 1.0f);
@@ -104,8 +104,27 @@ public class CustomView extends YokiView {
 //        testRect(canvas);
 //        testRect2(canvas);
 //        testRect3(canvas);
-        testCircle(canvas);
+
+//        testCircle(canvas);
+        testCircle2(canvas);
+        testCircle3(canvas);
     }
+
+    private void testCircle2(YokiCanvas canvas) {
+        int left = getWidth();
+        int top =getHeight();
+
+        for(int i = 0 ; i < left ; i+=20){
+            for(int j = 0 ; j < top ; j+=20) {
+                mPaint.color.x = mRnd.nextFloat();
+                mPaint.color.y = mRnd.nextFloat();
+                mPaint.color.z = mRnd.nextFloat();
+                mPaint.color.w = mRnd.nextFloat();
+                canvas.drawCircle(i , j , 8, mPaint);
+            }
+        }//end for i
+    }
+
 
     private void testCircle(YokiCanvas canvas) {
         float x = getWidth() / 2;
@@ -114,9 +133,28 @@ public class CustomView extends YokiView {
         mPaint.color.x = 0.0f;
         mPaint.color.y = 1.0f;
         mPaint.color.z = 0.0f;
-        mPaint.color.w = 0.5f;
+        mPaint.color.w = 1.0f;
 
         canvas.drawCircle(x , y , 200 , mPaint);
+    }
+
+
+    private void testCircle3(YokiCanvas canvas) {
+        float x = getWidth() / 2;
+        float y = getHeight() / 2;
+
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 1.0f;
+        mPaint.color.z = 0.0f;
+        mPaint.color.w = 1.0f;
+
+        canvas.drawCircle(x , y , 200 , mPaint);
+
+        mPaint.color.x = 1.0f;
+        mPaint.color.y = 0.0f;
+        mPaint.color.z = 0.0f;
+        mPaint.color.w = 0.2f;
+        canvas.drawCircle(x+200 , y + 200 , 200 , mPaint);
     }
 
     int angle = 0;

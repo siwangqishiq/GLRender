@@ -10,24 +10,19 @@ in float vRadius;
 out vec4 fragColor;
 
 bool isInCircle(){
-//    vec2 v = vPos - vCenter;
-    float f = vRadius;
-    f= f +1.0f ;
-    float dis = distance(vCenter , vPos);
-    bool r = dis >= vRadius;
-    return r;
+    return distance(vPos , vCenter) <= vRadius;
 }
 
-float calDistance() {
-    return distance(vCenter , vPos);
-}
+//float calDistance() {
+//    return distance(vPos , vCenter);
+//}
 
 void main() {
     if(isInCircle()){
         fragColor = vColor;
     }else{
+        //fragColor = vec4(1.0f , 1.0f , 1.0f , 1.0f);
         discard;
+        //fragColor = vec4(vColor.xyz , 0.0f);
     }
-
-//    fragColor = vColor;
 }

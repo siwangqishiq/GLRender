@@ -1,6 +1,7 @@
 package com.xinlan.yokirender.core.command;
 
 import android.opengl.GLES30;
+import android.util.Log;
 
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.shader.ShaderManager;
@@ -34,7 +35,7 @@ public class CircleCmd extends RectCmd {
 
         //显存空间开辟5个缓冲区  位置  颜色 顶点索引  圆心坐标 半径长度
         int buffIds[] = new int[5];
-        GLES30.glGenBuffers(3, buffIds, 0);
+        GLES30.glGenBuffers(5, buffIds, 0);
         mPosBufId = buffIds[0];
         mPosBuf = allocateFloatBufBySize(ELEMENT_COUNT * vertexPerElement * 3);
 
@@ -58,10 +59,9 @@ public class CircleCmd extends RectCmd {
             float _x4, float _y4,
             float zOrder, YokiPaint paint) {
 
-        final float centerX = (_x1 + _x4) / 2;
-        final float centerY = (_y1 + _y4) / 2;
+        final float centerX = (_x1 + _x3) / 2;
+        final float centerY = (_y1 + _y3) / 2;
         final float radius = Math.abs(_x2 - _x1) / 2;
-
 
         mPosBuf.put(_x1);
         mPosBuf.put(_y1);
@@ -108,6 +108,8 @@ public class CircleCmd extends RectCmd {
         }//end for i
 
         increaseIndex(ELEMENT_COUNT);
+
+        //Log.d("Yoki" , "center = " + centerX +" , " + centerY +"   " + radius);
     }
 
     @Override
