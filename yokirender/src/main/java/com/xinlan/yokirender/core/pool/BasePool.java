@@ -37,6 +37,8 @@ public abstract class BasePool<T extends Cmd> {
             cmd = createNewInstance();
             mObjList.add(cmd);
         }
+
+        //System.out.println("mObjList size = " + mObjList.size());
         return cmd;
     }
 

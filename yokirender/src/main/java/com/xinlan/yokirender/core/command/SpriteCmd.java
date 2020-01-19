@@ -4,7 +4,6 @@ import com.xinlan.yokirender.math.Matrix3f;
 
 public class SpriteCmd extends Cmd {
 
-
     @Override
     public void init() {
 

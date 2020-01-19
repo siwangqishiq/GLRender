@@ -6,4 +6,5 @@ package com.xinlan.yokirender.core;
 public class YokiBit {
     public int textureId = -1;
 
+
 }//end class

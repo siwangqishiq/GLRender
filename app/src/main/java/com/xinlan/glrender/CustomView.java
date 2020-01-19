@@ -106,8 +106,22 @@ public class CustomView extends YokiView {
 //        testRect3(canvas);
 
 //        testCircle(canvas);
-        testCircle2(canvas);
-        testCircle3(canvas);
+//        testCircle2(canvas);
+//        testCircle3(canvas);
+        testCircle4(canvas);
+    }
+
+    private void testCircle4(YokiCanvas canvas){
+        int cube =10;
+        for(int i = 0 ; i < 1000 ;i+=cube){
+            for(int j = 0 ; j< 1000;j+=cube){
+                mPaint.color.x = mRnd.nextFloat();
+                mPaint.color.y = mRnd.nextFloat();
+                mPaint.color.z = mRnd.nextFloat();
+                mPaint.color.w = mRnd.nextFloat();
+                canvas.drawCircle(i , j , 8, mPaint);
+            }//end for j;
+        }//end for i
     }
 
     private void testCircle2(YokiCanvas canvas) {
