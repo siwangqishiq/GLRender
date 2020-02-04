@@ -2,9 +2,11 @@ package com.xinlan.glrender;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import com.xinlan.yokirender.core.YokiBit;
 import com.xinlan.yokirender.core.YokiCanvas;
 import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.core.view.YokiView;
@@ -32,6 +34,11 @@ public class CustomView extends YokiView {
 
     Random mRnd = new Random();
 
+
+    private RectF mSrcRect = new RectF();
+    private RectF mDstRect = new RectF();
+    private YokiBit mImage;
+
     @Override
     public void onInit(int width, int height) {
         this.setRefreshColor(Color.WHITE);
@@ -40,6 +47,8 @@ public class CustomView extends YokiView {
         paintYellow.color = new Color4f(1.0f, 1.0f, 0.0f, 1.0f);
         mPaint.color = new Color4f(0.0f, 0.0f, 0.0f, 1.0f);
         mPaint.size = 11.0f;
+
+        mImage = loadBit(R.drawable.pic);
     }
 
     @Override
@@ -108,7 +117,20 @@ public class CustomView extends YokiView {
 //        testCircle(canvas);
 //        testCircle2(canvas);
 //        testCircle3(canvas);
-        testCircle4(canvas);
+//        testCircle4(canvas);
+
+        testSprite1(canvas);
+    }
+
+    private void testSprite1(YokiCanvas canvas){
+        mSrcRect.set(0 , 0 , mImage.srcWidth , mImage.srcHeight);
+        mDstRect.set(0 , getHeight() - mImage.srcHeight , mImage.srcWidth , 0);
+        canvas.drawSprite(mImage , mSrcRect , mDstRect , null);
+    }
+
+    @Override
+    public void onDestory() {
+        removeBit(mImage);
     }
 
     private void testCircle4(YokiCanvas canvas){

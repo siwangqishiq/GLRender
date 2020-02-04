@@ -45,5 +45,4 @@ public abstract  class Cmd implements IRender {
     public static FloatBuffer allocateFloatBufBySize(final int size) {
         return OpenglEsUtils.allocateBufBySize(size);
     }
-
 }

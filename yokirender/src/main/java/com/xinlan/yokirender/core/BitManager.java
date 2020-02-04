@@ -2,6 +2,10 @@ package com.xinlan.yokirender.core;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
+import android.opengl.GLUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  统一管理位图操作
@@ -10,6 +14,9 @@ import android.opengl.GLES30;
  *
  */
 public class BitManager {
+
+    private Map<Integer , YokiBit> mBits = new HashMap<Integer , YokiBit>();
+
     public static BitManager newInstance(){
         return new BitManager();
     }
@@ -20,14 +27,31 @@ public class BitManager {
 
         int textureIds[] = new int[1];
         GLES30.glGenTextures(1 , textureIds , 0);
+        int textureId = textureIds[0];
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D  , textureId);
+
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_MIN_FILTER , GLES30.GL_NEAREST);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_MAG_FILTER , GLES30.GL_LINEAR);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_S , GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_T , GLES30.GL_CLAMP_TO_EDGE);
+
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , bitmap , 0);
+
+        final YokiBit bit = new YokiBit();
+        bit.textureId = textureId;
+        bit.srcWidth = bitmap.getWidth();
+        bit.srcHeight = bitmap.getHeight();
 
         if(needRecycle){
             bitmap.recycle();
         }
-        return null;
+
+        mBits.put(bit.textureId , bit);
+        return bit;
     }
 
-    public void deleteYokiBit(){
-
+    public void deleteYokiBit(int textureId){
+        mBits.remove(textureId);
+        GLES30.glDeleteTextures(GLES30.GL_TEXTURE_2D , new int[]{textureId} , 0);
     }
 }//end class

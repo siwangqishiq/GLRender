@@ -8,6 +8,7 @@ import com.xinlan.yokirender.core.command.Cmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
 import com.xinlan.yokirender.core.command.RectCmd;
+import com.xinlan.yokirender.core.command.SpriteCmd;
 import com.xinlan.yokirender.core.command.TriangleCmd;
 import com.xinlan.yokirender.math.Matrix3f;
 import com.xinlan.yokirender.math.Vector3f;
@@ -204,7 +205,11 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void drawSprite(YokiBit bit, RectF srcRect, RectF dstRect, YokiPaint paint) {
+        decreseZorder();
+        SpriteCmd cmd = mCmdPool.obtainSpriteCmd();
+        //坐标转化
 
+        addRenderCmd(cmd);
     }
 
     @Override

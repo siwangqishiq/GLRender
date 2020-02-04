@@ -4,11 +4,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.xinlan.yokirender.R;
 import com.xinlan.yokirender.core.BitManager;
 import com.xinlan.yokirender.core.GLConfig;
 import com.xinlan.yokirender.core.YokiBit;
@@ -53,6 +55,7 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         super.onDetachedFromWindow();
         Log.d(TAG , "onDetachedFromWindow ");
        //ShaderManager.ctx = null;
+        onDestory();
     }
 
     protected void init(Context context){
@@ -73,11 +76,19 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
 
     /**
      *  将位图资源导入GPU中
-     * @param bitmap
+     * @param resId
      * @return
      */
-    public YokiBit loadBit(Bitmap bitmap){
-        return mBitManager.loadYokiBit(bitmap);
+    public YokiBit loadBit(final int resId){
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources() , resId);
+        return mBitManager.loadYokiBit(bitmap , true);
+    }
+
+    public void removeBit(final YokiBit bit){
+        if(bit == null)
+            return;
+
+        mBitManager.deleteYokiBit(bit.textureId);
     }
 
 
@@ -92,6 +103,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public abstract void onInit(int width , int height);
 
     public abstract void onRender(final YokiCanvas canvas);
+
+    public abstract void onDestory();
 
     /**
      *  设置背景颜色

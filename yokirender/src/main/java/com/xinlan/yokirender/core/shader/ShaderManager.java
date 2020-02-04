@@ -7,6 +7,7 @@ import com.xinlan.yokirender.R;
 import com.xinlan.yokirender.core.command.CircleCmd;
 import com.xinlan.yokirender.core.command.LineCmd;
 import com.xinlan.yokirender.core.command.PointCmd;
+import com.xinlan.yokirender.core.command.SpriteCmd;
 import com.xinlan.yokirender.core.command.TriangleCmd;
 import com.xinlan.yokirender.util.ShaderUtil;
 
@@ -48,6 +49,7 @@ public class ShaderManager {
         loadShader(ctx , LineCmd.RENDER_LINE , R.raw.render_line_vertex , R.raw.render_line_fragment);
         loadShader(ctx , TriangleCmd.RENDER_TRIANGLE , R.raw.render_triangle_vertex , R.raw.render_triangle_fragment);
         loadShader(ctx , CircleCmd.RENDER_SOLID_CIRCLE, R.raw.render_circle_vertex , R.raw.render_circle_fragment);
+        loadShader(ctx , SpriteCmd.RENDER_SPRITE , R.raw.render_sprite_vertex , R.raw.render_sprite_fragment);
     }
 
 
