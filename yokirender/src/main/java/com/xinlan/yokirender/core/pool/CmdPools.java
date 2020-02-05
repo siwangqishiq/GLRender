@@ -59,6 +59,8 @@ public class CmdPools {
     }
 
     public SpriteCmd obtainSpriteCmd() {
-        return mSpriteCmdPool.obtain();
+        final SpriteCmd cmd = mSpriteCmdPool.obtain();
+        cmd.used = true;
+        return cmd;
     }
 }//end class

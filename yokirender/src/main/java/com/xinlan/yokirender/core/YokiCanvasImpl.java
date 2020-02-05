@@ -207,7 +207,46 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawSprite(YokiBit bit, RectF srcRect, RectF dstRect, YokiPaint paint) {
         decreseZorder();
         SpriteCmd cmd = mCmdPool.obtainSpriteCmd();
+
         //坐标转化
+        float x1 = dstRect.left;
+        float y1 = dstRect.top;
+        transformPoint(x1 , y1);
+        float _x1 = mTransformResults[0];
+        float _y1 = mTransformResults[1];
+
+        float x2 = dstRect.right;
+        float y2 = dstRect.top;
+        transformPoint(x2 , y2);
+        float _x2 = mTransformResults[0];
+        float _y2 = mTransformResults[1];
+
+        float x3 = dstRect.right;
+        float y3 = dstRect.bottom;
+        transformPoint(x3 , y3);
+        float _x3 = mTransformResults[0];
+        float _y3 = mTransformResults[1];
+
+        float x4 = dstRect.left;
+        float y4 = dstRect.bottom;
+        transformPoint(x4 , y4);
+        float _x4 = mTransformResults[0];
+        float _y4 = mTransformResults[1];
+
+        float uvX1 = srcRect.left  / bit.srcWidth;
+        float uvY1 = srcRect.top / bit.srcHeight;
+
+        float uvX2 = srcRect.right / bit.srcWidth;
+        float uvY2 = srcRect.top / bit.srcHeight;
+
+        float uvX3 = srcRect.right / bit.srcWidth;
+        float uvY3 = srcRect.bottom / bit.srcHeight;
+
+        float uvX4 = srcRect.left / bit.srcWidth;
+        float uvY4 = srcRect.bottom / bit.srcHeight;
+
+        cmd.appendRender(bit.textureId , _x1 , _y1 , _x2 , _y2 , _x3 , _y3 , _x4 , _y4 , mZorder ,
+                uvX1 , uvY1 , uvX2 , uvY2 , uvX3 , uvY3 , uvX4 , uvY4 ,paint);
 
         addRenderCmd(cmd);
     }

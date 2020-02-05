@@ -62,10 +62,10 @@ public abstract class BasePool<T extends Cmd> {
                 break;
             }
         } while (i != mNextIndex);
-        //System.out.println("mNextIndex = " + mNextIndex);
+        System.out.println("mNextIndex = " + mNextIndex);
 
         if (result == null) {
-            //System.out.println("!!! createNewInstance " + mNextIndex);
+            System.out.println("!!! createNewInstance " + mNextIndex);
             result = createNewInstance();
             mObjList.add(result);
         }

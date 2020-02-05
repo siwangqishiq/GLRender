@@ -28,6 +28,7 @@ public class BitManager {
         int textureIds[] = new int[1];
         GLES30.glGenTextures(1 , textureIds , 0);
         int textureId = textureIds[0];
+
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D  , textureId);
 
         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_MIN_FILTER , GLES30.GL_NEAREST);
@@ -51,7 +52,10 @@ public class BitManager {
     }
 
     public void deleteYokiBit(int textureId){
+        int textures[] = new int[2];
+        textures[0] = textureId;
+        GLES30.glDeleteTextures(1 , textures, 0);
+
         mBits.remove(textureId);
-        GLES30.glDeleteTextures(GLES30.GL_TEXTURE_2D , new int[]{textureId} , 0);
     }
 }//end class

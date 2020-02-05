@@ -39,6 +39,9 @@ public class CustomView extends YokiView {
     private RectF mDstRect = new RectF();
     private YokiBit mImage;
 
+    private YokiBit mImage2;
+    private YokiBit mBoomImage;
+
     @Override
     public void onInit(int width, int height) {
         this.setRefreshColor(Color.WHITE);
@@ -48,7 +51,9 @@ public class CustomView extends YokiView {
         mPaint.color = new Color4f(0.0f, 0.0f, 0.0f, 1.0f);
         mPaint.size = 11.0f;
 
-        mImage = loadBit(R.drawable.pic);
+        mImage = loadBit(R.drawable.gakki);
+        mImage2 = loadBit(R.drawable.pic2);
+        mBoomImage = loadBit(R.drawable.boom);
     }
 
     @Override
@@ -119,13 +124,76 @@ public class CustomView extends YokiView {
 //        testCircle3(canvas);
 //        testCircle4(canvas);
 
-        testSprite1(canvas);
+//        testSprite1(canvas);
+//        testSprite2(canvas);
+//        testSprite3(canvas);
+        testSprite4(canvas);
+    }
+
+    float offsetX = 0;
+    float offsetDx = 1.5f;
+    private void testSprite4(YokiCanvas canvas){
+        float spriteWidth = mImage2.srcWidth / 2;
+
+        mSrcRect.set(offsetX , 0 , offsetX + spriteWidth , mImage2.srcHeight);
+        mDstRect.set(0 , getHeight() , getWidth() , getHeight() - mSrcRect.height());
+        canvas.drawSprite(mImage2 , mSrcRect , mDstRect , null);
+
+        offsetX+=offsetDx;
+        if(offsetX >= mImage2.srcWidth / 2){
+            offsetDx *= -1;
+        }else if(offsetX <=0 ){
+            offsetDx *= -1;
+        }
+    }
+
+    private void testSprite3(YokiCanvas canvas){
+        mSrcRect.set(mImage2.srcWidth/ 2 , 0 , mImage2.srcWidth , mImage2.srcHeight);
+        float r = mImage2.srcWidth / mImage2.srcHeight;
+        float bottom = getWidth() / r;
+        mDstRect.set(0 , getHeight() , mSrcRect.width() , getHeight() - mSrcRect.height());
+        canvas.drawSprite(mImage2 , mSrcRect , mDstRect , null);
     }
 
     private void testSprite1(YokiCanvas canvas){
-        mSrcRect.set(0 , 0 , mImage.srcWidth , mImage.srcHeight);
-        mDstRect.set(0 , getHeight() - mImage.srcHeight , mImage.srcWidth , 0);
+        mSrcRect.set(0 , 0 , mImage.srcWidth  , mImage.srcHeight);
+        float r = mImage.srcWidth / mImage.srcHeight;
+        float bottom = getWidth() / r;
+        mDstRect.set(0 , getHeight() , getWidth() , getHeight() - bottom);
+
+        canvas.save();
+        canvas.rotate(mDstRect.centerX() , mDstRect.centerY() , angle++);
         canvas.drawSprite(mImage , mSrcRect , mDstRect , null);
+        canvas.restore();
+    }
+
+    int frame = 0;
+    private void testSprite2(YokiCanvas canvas) {
+        float spriteWidth = 132;
+        float spriteHeight = 173;
+        int x = frame % 5;
+        int y = frame / 5;
+
+        System.out.println("x , y = " + x +"  " + y);
+
+        mSrcRect.set(x * spriteWidth , y * spriteHeight ,
+                x * spriteWidth + spriteWidth , y * spriteHeight + spriteHeight);
+
+        float spriteX = getWidth() / 2 - mSrcRect.width() / 2;
+        float spriteY = getHeight() / 2 + mSrcRect.height() / 2;
+
+        mDstRect.set(spriteX , spriteY, spriteX + mSrcRect.width() , spriteY - mSrcRect.height() );
+
+        canvas.drawSprite(mBoomImage , mSrcRect , mDstRect , null);
+        frame++;
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(frame >= 20) {
+            frame = 0;
+        }
     }
 
     @Override
