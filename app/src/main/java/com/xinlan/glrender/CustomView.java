@@ -37,10 +37,12 @@ public class CustomView extends YokiView {
 
     private RectF mSrcRect = new RectF();
     private RectF mDstRect = new RectF();
-    private YokiBit mImage;
 
+    private YokiBit mImage;
     private YokiBit mImage2;
     private YokiBit mBoomImage;
+    private YokiBit mPicBit;
+
 
     @Override
     public void onInit(int width, int height) {
@@ -54,6 +56,8 @@ public class CustomView extends YokiView {
         mImage = loadBit(R.drawable.gakki);
         mImage2 = loadBit(R.drawable.pic2);
         mBoomImage = loadBit(R.drawable.boom);
+
+        mPicBit = loadBit(R.drawable.pic);
     }
 
     @Override
@@ -127,7 +131,28 @@ public class CustomView extends YokiView {
 //        testSprite1(canvas);
 //        testSprite2(canvas);
 //        testSprite3(canvas);
-        testSprite4(canvas);
+//        testSprite4(canvas);
+        testSprite5(canvas);
+    }
+
+    private void testSprite5(YokiCanvas canvas) {
+        int height = getHeight();
+        int width = getWidth();
+
+        int cubeWidth = 100;
+        for(int i = 0 ; i < width;i+=cubeWidth) {
+            for(int j = 0 ; j <height;j +=cubeWidth){
+                float srcX = mRnd.nextInt((int)mPicBit.srcWidth);
+                float srcY = mRnd.nextInt((int)mPicBit.srcHeight);
+                float srcW = mRnd.nextFloat()*(mPicBit.srcWidth - srcX);
+                float srcH = mRnd.nextFloat()*(mPicBit.srcHeight - srcY);
+
+                //mSrcRect.set(srcX , srcY , srcX + srcW , srcY -srcH );
+                mSrcRect.set(0,0,mPicBit.srcWidth , mPicBit.srcHeight);
+                mDstRect.set( i,j ,i + cubeWidth , j - cubeWidth);
+                canvas.drawSprite(mPicBit , mSrcRect , mDstRect , null);
+            }
+        }
     }
 
     float offsetX = 0;
