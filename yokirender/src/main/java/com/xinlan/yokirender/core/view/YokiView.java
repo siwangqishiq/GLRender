@@ -20,6 +20,9 @@ import com.xinlan.yokirender.core.YokiPaint;
 import com.xinlan.yokirender.math.Vector4f;
 import com.xinlan.yokirender.util.OpenglEsUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -31,6 +34,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     private static final String TAG = YokiView.class.getSimpleName();
 
     private Context mContext;
+    public int viewWidth;
+    public int viewHeight;
 
     private Vector4f mRefreshColor = new Vector4f();
 
@@ -82,6 +87,26 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     public YokiBit loadBit(final int resId){
         Bitmap bitmap = BitmapFactory.decodeResource(getResources() , resId);
         return mBitManager.loadYokiBit(bitmap , true);
+    }
+
+    public YokiBit loadBitFromAssets(final String filepath){
+        InputStream inputStream = null;
+        try {
+            inputStream = getContext().getAssets().open(filepath);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return mBitManager.loadYokiBit(bitmap , true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void removeBit(final YokiBit bit){
@@ -153,6 +178,9 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         Log.d(TAG , "onSurfaceChanged width = " + width +"  height = " + height);
+        viewWidth = width;
+        viewHeight = height;
+
         GLES30.glViewport(0, 0, width, height);
         GLES30.glEnable(GLES30.GL_DEPTH_TEST); //打开深度测试
 

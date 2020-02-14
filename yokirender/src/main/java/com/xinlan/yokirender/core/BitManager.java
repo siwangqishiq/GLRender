@@ -1,6 +1,9 @@
 package com.xinlan.yokirender.core;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.opengl.GLES30;
 import android.opengl.GLUtils;
 
@@ -21,7 +24,11 @@ public class BitManager {
         return new BitManager();
     }
 
-    public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle){
+    public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle ){
+        return loadYokiBit(bitmap , needRecycle , true);
+    }
+
+    public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle , final boolean needVertexFlip){
         if(bitmap == null || bitmap.isRecycled())
             return null;
 
@@ -36,7 +43,13 @@ public class BitManager {
         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_S , GLES30.GL_CLAMP_TO_EDGE);
         GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_T , GLES30.GL_CLAMP_TO_EDGE);
 
-        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , bitmap , 0);
+        if(needVertexFlip){
+            Bitmap flipBit = convertBitmap(bitmap);
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , flipBit , 0);
+            flipBit.recycle();
+        }else{
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , bitmap , 0);
+        }
 
         final YokiBit bit = new YokiBit();
         bit.textureId = textureId;
@@ -49,6 +62,19 @@ public class BitManager {
 
         mBits.put(bit.textureId , bit);
         return bit;
+    }
+
+    private static Bitmap convertBitmap(Bitmap bit) {
+        final Bitmap newb = Bitmap.createBitmap(bit.getWidth(), bit.getHeight(), bit.getConfig());
+        Canvas cv = new Canvas(newb);
+        Matrix m = new Matrix();
+        m.postScale(1, -1);   //镜像垂直翻转
+        //m.postScale(-1, 1);   //镜像水平翻转
+        //m.postRotate(-90);  //旋转-90度
+        Bitmap new2 = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(), bit.getHeight(), m, true);
+        Rect rect = new Rect(0, 0, bit.getWidth(), bit.getHeight());
+        cv.drawBitmap(new2, rect, rect, null);
+        return newb;
     }
 
     public void deleteYokiBit(int textureId){

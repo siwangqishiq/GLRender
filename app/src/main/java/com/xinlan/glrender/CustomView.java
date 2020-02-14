@@ -13,11 +13,9 @@ import com.xinlan.yokirender.core.view.YokiView;
 import com.xinlan.yokirender.math.Color4f;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomView extends YokiView {
-    private int viewWidth;
-    private int viewHeight;
-
     public CustomView(Context context) {
         super(context);
     }
@@ -53,11 +51,11 @@ public class CustomView extends YokiView {
         mPaint.color = new Color4f(0.0f, 0.0f, 0.0f, 1.0f);
         mPaint.size = 11.0f;
 
-        mImage = loadBit(R.drawable.gakki);
+        mImage = loadBitFromAssets("gakki.jpg");
         mImage2 = loadBit(R.drawable.pic2);
-        mBoomImage = loadBit(R.drawable.boom);
+        mBoomImage = loadBitFromAssets("boomb.png");
 
-        mPicBit = loadBit(R.drawable.pic);
+        mPicBit = loadBitFromAssets("boomb.png");
     }
 
     @Override
@@ -128,11 +126,32 @@ public class CustomView extends YokiView {
 //        testCircle3(canvas);
 //        testCircle4(canvas);
 
-//        testSprite1(canvas);
+        testSprite1(canvas);
 //        testSprite2(canvas);
 //        testSprite3(canvas);
 //        testSprite4(canvas);
-        testSprite5(canvas);
+//        testSprite5(canvas);
+//        testSprite6(canvas);
+    }
+
+    int boombIndex = 0;
+    private void testSprite6(YokiCanvas canvas) {
+        int cube = (int)mBoomImage.srcWidth / 6;
+        mSrcRect.set(boombIndex *cube,0,boombIndex *cube + cube,cube);
+        mDstRect.set( 400,800 ,400 +400 , 400);
+
+
+        canvas.drawRect(mDstRect.left , mDstRect.top , mDstRect.width() , mDstRect.height() , paintYellow);
+        canvas.drawSprite(mBoomImage , mSrcRect , mDstRect , null);
+        boombIndex++;
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(boombIndex >=6){
+            boombIndex=0;
+        }
     }
 
     private void testSprite5(YokiCanvas canvas) {
@@ -181,15 +200,17 @@ public class CustomView extends YokiView {
     }
 
     private void testSprite1(YokiCanvas canvas){
-        mSrcRect.set(0 , 0 , mImage.srcWidth  , mImage.srcHeight);
-        float r = mImage.srcWidth / mImage.srcHeight;
-        float bottom = getWidth() / r;
-        mDstRect.set(0 , getHeight() , getWidth() , getHeight() - bottom);
+//        mSrcRect.set(0 , 0 , mImage.srcWidth  , mImage.srcHeight);
+//        float r = mImage.srcWidth / mImage.srcHeight;
+//        float bottom = getWidth() / r;
+        mDstRect.set(0 , viewHeight, viewWidth , 0);
+        canvas.drawRect(mDstRect.left , mDstRect.top , mDstRect.width() , mDstRect.height() , paintRed);
 
-        canvas.save();
-        canvas.rotate(mDstRect.centerX() , mDstRect.centerY() , angle++);
-        canvas.drawSprite(mImage , mSrcRect , mDstRect , null);
-        canvas.restore();
+//        mDstRect.set(0 , viewHeight, viewWidth , 0);
+//        canvas.drawSprite(mImage , mSrcRect , mDstRect , null);
+//        canvas.save();
+//        canvas.rotate(mDstRect.centerX() , mDstRect.centerY() , 0);
+//        canvas.restore();
     }
 
     int frame = 0;

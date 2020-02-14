@@ -208,30 +208,31 @@ public class YokiCanvasImpl implements YokiCanvas {
         decreseZorder();
         SpriteCmd cmd = mCmdPool.obtainSpriteCmd();
 
-        //坐标转化
         float x1 = dstRect.left;
         float y1 = dstRect.top;
         transformPoint(x1 , y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
-        float x2 = dstRect.right;
+        float x2 = dstRect.left +dstRect.width();
         float y2 = dstRect.top;
         transformPoint(x2 , y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
-        float x3 = dstRect.right;
-        float y3 = dstRect.bottom;
+
+        float x3 = dstRect.left + dstRect.width();
+        float y3 = dstRect.top - dstRect.height();
         transformPoint(x3 , y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
         float x4 = dstRect.left;
-        float y4 = dstRect.bottom;
+        float y4 = dstRect.top - dstRect.height();
         transformPoint(x4 , y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];
+
 
         float uvX1 = srcRect.left  / bit.srcWidth;
         float uvY1 = srcRect.top / bit.srcHeight;
