@@ -27,10 +27,9 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- *  核心View 类
- *
+ * 核心View 类
  */
-public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.Renderer {
+public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Renderer {
     private static final String TAG = YokiView.class.getSimpleName();
 
     private Context mContext;
@@ -58,12 +57,12 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.d(TAG , "onDetachedFromWindow ");
-       //ShaderManager.ctx = null;
+        Log.d(TAG, "onDetachedFromWindow ");
+        //ShaderManager.ctx = null;
         onDestory();
     }
 
-    protected void init(Context context){
+    protected void init(Context context) {
         mContext = context;
         //ShaderManager.ctx = context;
         setEGLContextClientVersion(3);
@@ -80,26 +79,27 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     }
 
     /**
-     *  将位图资源导入GPU中
+     * 将位图资源导入GPU中
+     *
      * @param resId
      * @return
      */
-    public YokiBit loadBit(final int resId){
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources() , resId);
-        return mBitManager.loadYokiBit(bitmap , true);
+    public YokiBit loadBit(final int resId) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
+        return mBitManager.loadYokiBit(bitmap, true);
     }
 
-    public YokiBit loadBitFromAssets(final String filepath){
+    public YokiBit loadBitFromAssets(final String filepath) {
         InputStream inputStream = null;
         try {
             inputStream = getContext().getAssets().open(filepath);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return mBitManager.loadYokiBit(bitmap , true);
+            return mBitManager.loadYokiBit(bitmap, true);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }finally {
-            if(inputStream != null){
+        } finally {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -109,41 +109,30 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         }
     }
 
-    public void removeBit(final YokiBit bit){
-        if(bit == null)
-            return;
-
-        mBitManager.deleteYokiBit(bit.textureId);
-    }
-
-
     /**
      * 手动请求刷新一次View
-     *
      */
-    public void refreshView(){
+    public void refreshView() {
         this.requestRender();
     }
 
-    public abstract void onInit(int width , int height);
+    public abstract void onInit(int width, int height);
 
     public abstract void onRender(final YokiCanvas canvas);
 
-    public abstract void onDestory();
-
     /**
-     *  设置背景颜色
+     * 设置背景颜色
      *
      * @param refreshColor
      */
-    public void setRefreshColor(int refreshColor){
+    public void setRefreshColor(int refreshColor) {
         mRefreshColor = OpenglEsUtils.convertColor(refreshColor);
         //refreshView();
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        Log.d(TAG , "onSurfaceCreated");
+        Log.d(TAG, "onSurfaceCreated");
 
         readGLConfig();
         mRender.initEngine(mContext);
@@ -152,32 +141,32 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
     /**
      *
      */
-    private void readGLConfig(){
-        final ActivityManager activityManager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        final ConfigurationInfo configurationInfo =activityManager.getDeviceConfigurationInfo();
+    private void readGLConfig() {
+        final ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         int version = configurationInfo.reqGlEsVersion;
         String versionName = configurationInfo.getGlEsVersion();
 
         GLConfig.glVersion = version;
         GLConfig.glVersionName = versionName;
 
-        Log.d(TAG, "GL version  "+Integer.toHexString(version)+" , "+ versionName);
+        Log.d(TAG, "GL version  " + Integer.toHexString(version) + " , " + versionName);
 
         float pointSizeBuffers[] = new float[2];
-        GLES30.glGetFloatv(GLES30.GL_ALIASED_POINT_SIZE_RANGE , pointSizeBuffers , 0);
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_POINT_SIZE_RANGE, pointSizeBuffers, 0);
         GLConfig.maxPointSize = pointSizeBuffers[1];
 
         float lineWidthRangeBuffers[] = new float[2];
-        GLES30.glGetFloatv(GLES30.GL_ALIASED_LINE_WIDTH_RANGE , lineWidthRangeBuffers , 0);
+        GLES30.glGetFloatv(GLES30.GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRangeBuffers, 0);
         GLConfig.maxLineWidth = lineWidthRangeBuffers[1];
 
-        Log.d(TAG, "GL pointSizeRange  = "+pointSizeBuffers[0] +" - "+ pointSizeBuffers[1]);
-        Log.d(TAG, "GL lineWidthRange  = "+lineWidthRangeBuffers[0] +" - "+ lineWidthRangeBuffers[1]);
+        Log.d(TAG, "GL pointSizeRange  = " + pointSizeBuffers[0] + " - " + pointSizeBuffers[1]);
+        Log.d(TAG, "GL lineWidthRange  = " + lineWidthRangeBuffers[0] + " - " + lineWidthRangeBuffers[1]);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.d(TAG , "onSurfaceChanged width = " + width +"  height = " + height);
+        Log.d(TAG, "onSurfaceChanged width = " + width + "  height = " + height);
         viewWidth = width;
         viewHeight = height;
 
@@ -188,8 +177,8 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         GLES30.glEnable(GLES30.GL_BLEND);
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
-        mRender.onInitSurface(width , height);
-        onInit(width , height);
+        mRender.onInitSurface(width, height);
+        onInit(width, height);
     }
 
     @Override
@@ -197,24 +186,35 @@ public abstract  class YokiView extends GLSurfaceView implements GLSurfaceView.R
         //System.out.println("onDrawFrame");
         mRender.clearAllRender();
 
-        long t1 = System.currentTimeMillis();
-
-        GLES30.glClearColor(mRefreshColor.x , mRefreshColor.y, mRefreshColor.z , mRefreshColor.w);
+        long startRenderTime = System.currentTimeMillis();
+        GLES30.glClearColor(mRefreshColor.x, mRefreshColor.y, mRefreshColor.z, mRefreshColor.w);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         final long t5 = System.currentTimeMillis();
         onRender(mRender);
         final long t6 = System.currentTimeMillis();
-        Log.d(TAG, "view draw content time = " + (t6  - t5));
+        Log.d(TAG, "view draw content time = " + (t6 - t5));
 
         final long t3 = System.currentTimeMillis();
         mRender.render();
-        final long t4 = System.currentTimeMillis();
-        Log.d(TAG, "gl call time = " + (t4  - t3));
+        final long endRenderTime = System.currentTimeMillis();
+        Log.d(TAG, "gl call time = " + (endRenderTime - t3));
 
-        long t2 = System.currentTimeMillis();
-        Log.d(TAG, "render a frame time = " + (t2  - t1));
+        long frameCostTime = endRenderTime -startRenderTime;
+        Log.d(TAG, "render a frame time = " + frameCostTime);
+
+        if(frameCostTime < 20){ //保持画面帧数稳定在50帧
+            try {
+                Thread.sleep(20 - frameCostTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-
+    public void onDestory() {
+        if (mBitManager != null) {
+            mBitManager.deleteAllBits();
+        }
+    }
 }//end class

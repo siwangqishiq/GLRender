@@ -65,6 +65,9 @@ public interface YokiCanvas {
      */
     void drawSprite(YokiBit bit , RectF srcRect ,RectF dstRect , YokiPaint paint);
 
+    void drawSprite(YokiBit bit , float srcLeft , float srcTop , float srcWidth , float srcHeight,
+                    float x , float y , float width , float height);
+
     /**
      *  保存堆栈上下文环境
      */

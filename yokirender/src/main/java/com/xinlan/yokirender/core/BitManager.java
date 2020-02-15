@@ -25,7 +25,7 @@ public class BitManager {
     }
 
     public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle ){
-        return loadYokiBit(bitmap , needRecycle , true);
+        return loadYokiBit(bitmap , needRecycle , false);
     }
 
     public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle , final boolean needVertexFlip){
@@ -77,11 +77,27 @@ public class BitManager {
         return newb;
     }
 
-    public void deleteYokiBit(int textureId){
+    public void deleteYokiBit(int textureId , boolean removeSet){
         int textures[] = new int[2];
         textures[0] = textureId;
         GLES30.glDeleteTextures(1 , textures, 0);
 
-        mBits.remove(textureId);
+        if(removeSet){
+            mBits.remove(textureId);
+        }
+    }
+
+    /**
+     *  释放所有纹理显存
+     */
+    public void deleteAllBits() {
+        if(!mBits.isEmpty()){
+            for(Integer texID : mBits.keySet()){
+                if(texID.intValue() >= 0 ){
+                    deleteYokiBit(texID.intValue() , false);
+                }
+            }//end for each
+            mBits.clear();
+        }
     }
 }//end class

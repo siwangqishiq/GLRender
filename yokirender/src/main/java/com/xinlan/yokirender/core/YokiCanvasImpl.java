@@ -132,7 +132,6 @@ public class YokiCanvasImpl implements YokiCanvas {
         float _y3 = mTransformResults[1];
 
         cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3 , _y3 , mZorder ,paint);
-
         addRenderCmd(cmd);
     }
 
@@ -205,50 +204,57 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void drawSprite(YokiBit bit, RectF srcRect, RectF dstRect, YokiPaint paint) {
+        drawSprite(bit , srcRect.left , srcRect.top , srcRect.width() , srcRect.height() ,
+                dstRect.left , dstRect.top ,
+                dstRect.width()>=0?dstRect.width():-dstRect.width(),
+                dstRect.height()>=0?dstRect.height():-dstRect.height());
+    }
+
+    @Override
+    public void drawSprite(YokiBit bit, float srcLeft, float srcTop, float srcWidth, float srcHeight, float x, float y, float width, float height) {
         decreseZorder();
         SpriteCmd cmd = mCmdPool.obtainSpriteCmd();
 
-        float x1 = dstRect.left;
-        float y1 = dstRect.top;
+        float x1 = x;
+        float y1 = y;
         transformPoint(x1 , y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
-        float x2 = dstRect.left +dstRect.width();
-        float y2 = dstRect.top;
+        float x2 = x + width;
+        float y2 = y;
         transformPoint(x2 , y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
 
-        float x3 = dstRect.left + dstRect.width();
-        float y3 = dstRect.top - dstRect.height();
+        float x3 = x+ width;
+        float y3 = y - height;
         transformPoint(x3 , y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
-        float x4 = dstRect.left;
-        float y4 = dstRect.top - dstRect.height();
+        float x4 = x;
+        float y4 = y - height;
         transformPoint(x4 , y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];
 
 
-        float uvX1 = srcRect.left  / bit.srcWidth;
-        float uvY1 = srcRect.top / bit.srcHeight;
+        float uvX1 = srcLeft  / bit.srcWidth;
+        float uvY1 = srcTop / bit.srcHeight;
 
-        float uvX2 = srcRect.right / bit.srcWidth;
-        float uvY2 = srcRect.top / bit.srcHeight;
+        float uvX2 = (srcLeft + srcWidth) / bit.srcWidth;
+        float uvY2 =  srcTop / bit.srcHeight;
 
-        float uvX3 = srcRect.right / bit.srcWidth;
-        float uvY3 = srcRect.bottom / bit.srcHeight;
+        float uvX3 = (srcLeft + srcWidth) / bit.srcWidth;
+        float uvY3 = (srcTop + srcHeight) / bit.srcHeight;
 
-        float uvX4 = srcRect.left / bit.srcWidth;
-        float uvY4 = srcRect.bottom / bit.srcHeight;
+        float uvX4 = srcLeft / bit.srcWidth;
+        float uvY4 = (srcTop + srcHeight) / bit.srcHeight;
 
         cmd.appendRender(bit.textureId , _x1 , _y1 , _x2 , _y2 , _x3 , _y3 , _x4 , _y4 , mZorder ,
-                uvX1 , uvY1 , uvX2 , uvY2 , uvX3 , uvY3 , uvX4 , uvY4 ,paint);
-
+                uvX1 , uvY1 , uvX2 , uvY2 , uvX3 , uvY3 , uvX4 , uvY4 ,null);
         addRenderCmd(cmd);
     }
 
