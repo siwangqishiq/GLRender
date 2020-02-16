@@ -28,9 +28,7 @@ public class CustomView extends YokiView {
     private YokiPaint mPaint;
 
     YokiPaint paintRed = new YokiPaint();
-
     YokiPaint paintYellow = new YokiPaint();
-
     Random mRnd = new Random();
 
 
@@ -45,6 +43,13 @@ public class CustomView extends YokiView {
     private YokiBit mBoomBit;
     private YokiBit mWalkBit;
     private YokiBit mMagicBit;
+
+    @Override
+    public void initOptions(YokiViewOptions options) {
+        // 全部采用默认 or 设置自定义属性
+        options.refreshMode = REFRESH_MODE.AUTO_REFRESH;
+        options.isLimitFps = true;
+    }
 
     @Override
     public void onInit(int width, int height) {

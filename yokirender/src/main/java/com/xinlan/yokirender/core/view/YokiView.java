@@ -32,9 +32,25 @@ import javax.microedition.khronos.opengles.GL10;
 public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Renderer {
     private static final String TAG = YokiView.class.getSimpleName();
 
+    public enum REFRESH_MODE{
+        WHEN_DIRTY,
+        AUTO_REFRESH
+    }
+
+    /**
+     * 用户自定义配置
+     *
+     */
+    public static class YokiViewOptions{
+        public REFRESH_MODE refreshMode = REFRESH_MODE.WHEN_DIRTY;//刷新模式 默认不自动刷新
+        public boolean isLimitFps = true; //是否限制最高帧率
+    }
+
     private Context mContext;
     public int viewWidth;
     public int viewHeight;
+
+    private YokiViewOptions mOptions = null;
 
     private Vector4f mRefreshColor = new Vector4f();
 
@@ -58,21 +74,25 @@ public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Re
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.d(TAG, "onDetachedFromWindow ");
-        //ShaderManager.ctx = null;
         onDestory();
     }
 
     protected void init(Context context) {
         mContext = context;
-        //ShaderManager.ctx = context;
+
+        mOptions = new YokiViewOptions();
+        initOptions(mOptions);
+
         setEGLContextClientVersion(3);
         setEGLConfigChooser(8, 8, 8, 8, 24, 0);
 
         //requestRender();
-
         setRenderer(this);
-//        setRenderMode(RENDERMODE_WHEN_DIRTY);
-        setRenderMode(RENDERMODE_CONTINUOUSLY);
+        if(mOptions.refreshMode == REFRESH_MODE.WHEN_DIRTY){
+            setRenderMode(RENDERMODE_WHEN_DIRTY);
+        }else {
+            setRenderMode(RENDERMODE_CONTINUOUSLY);
+        }
         mDefaultPaint = new YokiPaint();
         mRender = new YokiCanvasImpl(mDefaultPaint);
         mBitManager = BitManager.newInstance();
@@ -115,6 +135,8 @@ public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Re
     public void refreshView() {
         this.requestRender();
     }
+
+    public abstract void initOptions(final YokiViewOptions options);
 
     public abstract void onInit(int width, int height);
 
@@ -203,9 +225,9 @@ public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Re
         long frameCostTime = endRenderTime -startRenderTime;
         Log.d(TAG, "render a frame time = " + frameCostTime);
 
-        if(frameCostTime < 20){ //保持画面帧数稳定在50帧
+        if(mOptions.isLimitFps && frameCostTime < 40){ //保持画面帧数稳定在50帧
             try {
-                Thread.sleep(20 - frameCostTime);
+                Thread.sleep(40 - frameCostTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
