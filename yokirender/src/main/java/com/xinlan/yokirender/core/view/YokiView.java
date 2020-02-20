@@ -94,8 +94,9 @@ public abstract class YokiView extends GLSurfaceView implements GLSurfaceView.Re
             setRenderMode(RENDERMODE_CONTINUOUSLY);
         }
         mDefaultPaint = new YokiPaint();
-        mRender = new YokiCanvasImpl(mDefaultPaint);
         mBitManager = BitManager.newInstance();
+
+        mRender = new YokiCanvasImpl(mDefaultPaint , mBitManager);
     }
 
     /**

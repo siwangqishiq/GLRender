@@ -1,8 +1,11 @@
 package com.xinlan.yokirender.core;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.opengl.GLES30;
 import android.opengl.GLUtils;
@@ -20,32 +23,43 @@ public class BitManager {
     private Map<Integer, YokiBit> mBits = new HashMap<Integer, YokiBit>();
 
     private HashMap<String, YokiBit> mTextBits = new HashMap<String, YokiBit>();
+    private Paint mTextPaint = new Paint(); //文本Paint
 
     public static BitManager newInstance() {
         return new BitManager();
     }
 
+    public BitManager() {
+        mTextPaint.setColor(Color.BLACK);
+        mTextPaint.setTextSize(20.0f);
+    }
+
     /**
-     *  对文本位图做提前生成
+     * 对文本位图做提前生成
      *
      * @param textContent
      * @return
      */
-    public YokiBit preLoadText(final String textContent) {
+    public YokiBit getTextBit(final String textContent) {
         YokiBit result = mTextBits.get(textContent);
         if (result != null) {
             return result;
         }
 
-        if(result != null) {
-            result = genTextBit(textContent);
-        }
+        result = genTextBitmap(textContent);
+        mTextBits.put(textContent, result);
         return result;
     }
 
-    public YokiBit genTextBit(final String text){
-        Canvas canvas = new Canvas();
-        return null;
+    public YokiBit genTextBitmap(final String text) {
+        final Rect outRect = new Rect();
+        mTextPaint.getTextBounds(text, 0, text.length(), outRect);
+
+        //todo RGBA8888没必要 先这么设置 后面优化
+        final Bitmap bit = Bitmap.createBitmap(outRect.width(), outRect.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bit);
+        canvas.drawText(text, 0, 0, mTextPaint);
+        return loadYokiBit(bit, true);
     }
 
     public YokiBit loadYokiBit(final Bitmap bitmap, final boolean needRecycle) {

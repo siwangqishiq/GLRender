@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class YokiCanvasImpl implements YokiCanvas {
     private YokiPaint mDefaultPaint;
+    private BitManager mBitManager;
     private ArrayList<IRender> mRenderList = new ArrayList<IRender>(256);
 
     private Camera mCamera;
@@ -31,15 +32,16 @@ public class YokiCanvasImpl implements YokiCanvas {
     private CmdPools mCmdPool = new CmdPools();
 
     //左边变换矩阵栈
-    private static final int MATRIX_STACK_SIZE =16;
+    private static final int MATRIX_STACK_SIZE = 16;
     private Matrix3f mMats[] = new Matrix3f[MATRIX_STACK_SIZE];
     private int mMatUsingIndex = 0;
     private Matrix3f mResult = new Matrix3f();
     private float[] mTransformResults = new float[3];
     private Vector3f mTmpVec = new Vector3f();
 
-    public YokiCanvasImpl(YokiPaint paint) {
+    public YokiCanvasImpl(YokiPaint paint, BitManager bm) {
         mDefaultPaint = paint;
+        mBitManager = bm;
         if (mDefaultPaint == null) {
             mDefaultPaint = new YokiPaint();
         }
@@ -47,7 +49,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     private void initMatrixStack() {
-        for(int i = 0 ; i < MATRIX_STACK_SIZE ; i++){
+        for (int i = 0; i < MATRIX_STACK_SIZE; i++) {
             mMats[i] = new Matrix3f();
             mMats[i].setIdentity();
         }//end for i
@@ -92,8 +94,8 @@ public class YokiCanvasImpl implements YokiCanvas {
     public void drawPoint(float x, float y, YokiPaint paint) {
         decreseZorder();
         final PointCmd cmd = mCmdPool.obtainPointCmd();
-        transformPoint(x , y);
-        cmd.appendRender(mTransformResults[0] , mTransformResults[1] , mZorder , paint);
+        transformPoint(x, y);
+        cmd.appendRender(mTransformResults[0], mTransformResults[1], mZorder, paint);
 
         addRenderCmd(cmd);
     }
@@ -103,15 +105,15 @@ public class YokiCanvasImpl implements YokiCanvas {
         decreseZorder();
         final LineCmd cmd = mCmdPool.obtainLineCmd();
 
-        transformPoint(x1 , y1);
+        transformPoint(x1, y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
-        transformPoint(x2 , y2);
+        transformPoint(x2, y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
-        cmd.update(_x1 , _y1 , _x2 , _y2 , mZorder , paint);
+        cmd.update(_x1, _y1, _x2, _y2, mZorder, paint);
         addRenderCmd(cmd);
     }
 
@@ -120,19 +122,19 @@ public class YokiCanvasImpl implements YokiCanvas {
         decreseZorder();
         final TriangleCmd cmd = mCmdPool.obtainTriangleCmd();
 
-        transformPoint(x1 , y1);
+        transformPoint(x1, y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
-        transformPoint(x2 , y2);
+        transformPoint(x2, y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
-        transformPoint(x3 , y3);
+        transformPoint(x3, y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
-        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3 , _y3 , mZorder ,paint);
+        cmd.appendRender(_x1, _y1, _x2, _y2, _x3, _y3, mZorder, paint);
         addRenderCmd(cmd);
     }
 
@@ -143,72 +145,72 @@ public class YokiCanvasImpl implements YokiCanvas {
 
         float x1 = left;
         float y1 = top;
-        transformPoint(x1 , y1);
+        transformPoint(x1, y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
-        float x2 = left +width;
+        float x2 = left + width;
         float y2 = top;
-        transformPoint(x2 , y2);
+        transformPoint(x2, y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
 
         float x3 = left + width;
         float y3 = top - height;
-        transformPoint(x3 , y3);
+        transformPoint(x3, y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
         float x4 = left;
         float y4 = top - height;
-        transformPoint(x4 , y4);
+        transformPoint(x4, y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];
 
-        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3,_y3 , _x4 , _y4 , mZorder , paint);
+        cmd.appendRender(_x1, _y1, _x2, _y2, _x3, _y3, _x4, _y4, mZorder, paint);
         addRenderCmd(cmd);
     }
 
     @Override
-    public void drawCircle(float centerX, float centerY, float radius , YokiPaint paint) {
+    public void drawCircle(float centerX, float centerY, float radius, YokiPaint paint) {
         decreseZorder();
         final CircleCmd cmd = mCmdPool.obtainCircleCmd();
 
         float x1 = centerX - radius;
-        float y1 = centerY +radius;
-        transformPoint(x1 , y1);
+        float y1 = centerY + radius;
+        transformPoint(x1, y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
         float x2 = centerX + radius;
         float y2 = centerY + radius;
-        transformPoint(x2 , y2);
+        transformPoint(x2, y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
-        float x3 = centerX + radius;;
-        float y3 = centerY - radius;;
-        transformPoint(x3 , y3);
+        float x3 = centerX + radius;
+        float y3 = centerY - radius;
+        transformPoint(x3, y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
         float x4 = centerX - radius;
         float y4 = centerY - radius;
-        transformPoint(x4 , y4);
+        transformPoint(x4, y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];
 
-        cmd.appendRender(_x1 , _y1 , _x2 , _y2 , _x3,_y3 , _x4 , _y4 , mZorder , paint);
+        cmd.appendRender(_x1, _y1, _x2, _y2, _x3, _y3, _x4, _y4, mZorder, paint);
         addRenderCmd(cmd);
     }
 
     @Override
     public void drawSprite(YokiBit bit, RectF srcRect, RectF dstRect, YokiPaint paint) {
-        drawSprite(bit , srcRect.left , srcRect.top , srcRect.width() , srcRect.height() ,
-                dstRect.left , dstRect.top ,
-                dstRect.width()>=0?dstRect.width():-dstRect.width(),
-                dstRect.height()>=0?dstRect.height():-dstRect.height());
+        drawSprite(bit, srcRect.left, srcRect.top, srcRect.width(), srcRect.height(),
+                dstRect.left, dstRect.top,
+                dstRect.width() >= 0 ? dstRect.width() : -dstRect.width(),
+                dstRect.height() >= 0 ? dstRect.height() : -dstRect.height());
     }
 
     @Override
@@ -218,35 +220,35 @@ public class YokiCanvasImpl implements YokiCanvas {
 
         float x1 = x;
         float y1 = y;
-        transformPoint(x1 , y1);
+        transformPoint(x1, y1);
         float _x1 = mTransformResults[0];
         float _y1 = mTransformResults[1];
 
         float x2 = x + width;
         float y2 = y;
-        transformPoint(x2 , y2);
+        transformPoint(x2, y2);
         float _x2 = mTransformResults[0];
         float _y2 = mTransformResults[1];
 
 
-        float x3 = x+ width;
+        float x3 = x + width;
         float y3 = y - height;
-        transformPoint(x3 , y3);
+        transformPoint(x3, y3);
         float _x3 = mTransformResults[0];
         float _y3 = mTransformResults[1];
 
         float x4 = x;
         float y4 = y - height;
-        transformPoint(x4 , y4);
+        transformPoint(x4, y4);
         float _x4 = mTransformResults[0];
         float _y4 = mTransformResults[1];
 
 
-        float uvX1 = srcLeft  / bit.srcWidth;
+        float uvX1 = srcLeft / bit.srcWidth;
         float uvY1 = srcTop / bit.srcHeight;
 
         float uvX2 = (srcLeft + srcWidth) / bit.srcWidth;
-        float uvY2 =  srcTop / bit.srcHeight;
+        float uvY2 = srcTop / bit.srcHeight;
 
         float uvX3 = (srcLeft + srcWidth) / bit.srcWidth;
         float uvY3 = (srcTop + srcHeight) / bit.srcHeight;
@@ -254,20 +256,21 @@ public class YokiCanvasImpl implements YokiCanvas {
         float uvX4 = srcLeft / bit.srcWidth;
         float uvY4 = (srcTop + srcHeight) / bit.srcHeight;
 
-        cmd.appendRender(bit.textureId , _x1 , _y1 , _x2 , _y2 , _x3 , _y3 , _x4 , _y4 , mZorder ,
-                uvX1 , uvY1 , uvX2 , uvY2 , uvX3 , uvY3 , uvX4 , uvY4 ,null);
+        cmd.appendRender(bit.textureId, _x1, _y1, _x2, _y2, _x3, _y3, _x4, _y4, mZorder,
+                uvX1, uvY1, uvX2, uvY2, uvX3, uvY3, uvX4, uvY4, null);
         addRenderCmd(cmd);
     }
 
     @Override
     public void drawText(String content, float x, float y, float textWidth, float textHeight, Color textColor) {
-
+        YokiBit bit = mBitManager.getTextBit(content);
+        drawSprite(bit, 0, 0, bit.srcWidth, bit.srcHeight, x, y, textWidth, textHeight);
     }
 
     @Override
     public void restore() {
         mMatUsingIndex--;
-        if(mMatUsingIndex < -1){
+        if (mMatUsingIndex < -1) {
             throw new RuntimeException("can not restore brfore any call save() !");
         }
 
@@ -277,7 +280,7 @@ public class YokiCanvasImpl implements YokiCanvas {
     @Override
     public void save() { //坐标系入栈
         mMatUsingIndex++;
-        if(mMatUsingIndex >= mMats.length) {
+        if (mMatUsingIndex >= mMats.length) {
             throw new RuntimeException("can not restore brfore any call save() !");
         }
         mMats[mMatUsingIndex].setIdentity();
@@ -291,34 +294,34 @@ public class YokiCanvasImpl implements YokiCanvas {
 
     @Override
     public void rotate(float centerX, float centerY, float degree) {
-        mMats[mMatUsingIndex].postRotate(centerX , centerY ,degree);
+        mMats[mMatUsingIndex].postRotate(centerX, centerY, degree);
         updateResultMatrix();
     }
 
     @Override
     public void scale(float sc) {
-        scale(sc , sc);
+        scale(sc, sc);
     }
 
     @Override
     public void scale(float scaleX, float scaleY) {
-        mMats[mMatUsingIndex].postScale(scaleX , scaleY);
+        mMats[mMatUsingIndex].postScale(scaleX, scaleY);
         updateResultMatrix();
     }
 
     @Override
     public void translate(float dx, float dy) {
-        mMats[mMatUsingIndex].postTranslate(dx , dy);
+        mMats[mMatUsingIndex].postTranslate(dx, dy);
         updateResultMatrix();
     }
 
     /**
-     *  根据当前矩阵栈变换顶点坐标
+     * 根据当前矩阵栈变换顶点坐标
      *
      * @param _x
      * @param _y
      */
-    private void transformPoint(float _x , float _y) {
+    private void transformPoint(float _x, float _y) {
         mTmpVec.x = _x;
         mTmpVec.y = _y;
         mTmpVec.z = 1.0f;
@@ -330,13 +333,13 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     /**
-     *  更新坐标系变换矩阵
+     * 更新坐标系变换矩阵
      */
     private void updateResultMatrix() {
         mResult.setIdentity();
 
-        if(mMatUsingIndex >= 0){
-            for(int i = 0 ; i <= mMatUsingIndex;i++){
+        if (mMatUsingIndex >= 0) {
+            for (int i = 0; i <= mMatUsingIndex; i++) {
                 mResult.mul(mMats[i]);
             }//end for i
         }
@@ -348,11 +351,12 @@ public class YokiCanvasImpl implements YokiCanvas {
     }
 
     /**
-     *   将渲染指令添加到渲染列表中去
+     * 将渲染指令添加到渲染列表中去
+     *
      * @param cmd
      */
-    public void addRenderCmd(final Cmd cmd){
-        if(cmd == null || cmd.addRenderList)
+    public void addRenderCmd(final Cmd cmd) {
+        if (cmd == null || cmd.addRenderList)
             return;
 
         //System.out.println("add to render list  index = " + cmd.mIndex);

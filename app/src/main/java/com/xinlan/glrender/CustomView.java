@@ -146,6 +146,11 @@ public class CustomView extends YokiView {
 //        testSprite6(canvas);
         testSprite7(canvas);
         testSprite8(canvas);
+        testText1(canvas);
+    }
+
+    private void testText1(YokiCanvas canvas) {
+        canvas.drawText("你好 世界" , 0 , 400 , 500, 100 , null);
     }
 
     int magicIndex;
