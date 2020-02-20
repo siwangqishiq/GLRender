@@ -11,44 +11,68 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  统一管理位图操作
- *
- *   位图的载入 卸载
- *
+ * 统一管理位图操作
+ * <p>
+ * 位图的载入 卸载
  */
 public class BitManager {
 
-    private Map<Integer , YokiBit> mBits = new HashMap<Integer , YokiBit>();
+    private Map<Integer, YokiBit> mBits = new HashMap<Integer, YokiBit>();
 
-    public static BitManager newInstance(){
+    private HashMap<String, YokiBit> mTextBits = new HashMap<String, YokiBit>();
+
+    public static BitManager newInstance() {
         return new BitManager();
     }
 
-    public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle ){
-        return loadYokiBit(bitmap , needRecycle , false);
+    /**
+     *  对文本位图做提前生成
+     *
+     * @param textContent
+     * @return
+     */
+    public YokiBit preLoadText(final String textContent) {
+        YokiBit result = mTextBits.get(textContent);
+        if (result != null) {
+            return result;
+        }
+
+        if(result != null) {
+            result = genTextBit(textContent);
+        }
+        return result;
     }
 
-    public YokiBit loadYokiBit(final Bitmap bitmap ,final boolean needRecycle , final boolean needVertexFlip){
-        if(bitmap == null || bitmap.isRecycled())
+    public YokiBit genTextBit(final String text){
+        Canvas canvas = new Canvas();
+        return null;
+    }
+
+    public YokiBit loadYokiBit(final Bitmap bitmap, final boolean needRecycle) {
+        return loadYokiBit(bitmap, needRecycle, false);
+    }
+
+    public YokiBit loadYokiBit(final Bitmap bitmap, final boolean needRecycle, final boolean needVertexFlip) {
+        if (bitmap == null || bitmap.isRecycled())
             return null;
 
         int textureIds[] = new int[1];
-        GLES30.glGenTextures(1 , textureIds , 0);
+        GLES30.glGenTextures(1, textureIds, 0);
         int textureId = textureIds[0];
 
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D  , textureId);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId);
 
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_MIN_FILTER , GLES30.GL_NEAREST);
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_MAG_FILTER , GLES30.GL_LINEAR);
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_S , GLES30.GL_CLAMP_TO_EDGE);
-        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_T , GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_CLAMP_TO_EDGE);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_CLAMP_TO_EDGE);
 
-        if(needVertexFlip){
+        if (needVertexFlip) {
             Bitmap flipBit = convertBitmap(bitmap);
-            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , flipBit , 0);
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, flipBit, 0);
             flipBit.recycle();
-        }else{
-            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0 , bitmap , 0);
+        } else {
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0);
         }
 
         final YokiBit bit = new YokiBit();
@@ -56,11 +80,11 @@ public class BitManager {
         bit.srcWidth = bitmap.getWidth();
         bit.srcHeight = bitmap.getHeight();
 
-        if(needRecycle){
+        if (needRecycle) {
             bitmap.recycle();
         }
 
-        mBits.put(bit.textureId , bit);
+        mBits.put(bit.textureId, bit);
         return bit;
     }
 
@@ -77,24 +101,24 @@ public class BitManager {
         return newb;
     }
 
-    public void deleteYokiBit(int textureId , boolean removeSet){
+    public void deleteYokiBit(int textureId, boolean removeSet) {
         int textures[] = new int[2];
         textures[0] = textureId;
-        GLES30.glDeleteTextures(1 , textures, 0);
+        GLES30.glDeleteTextures(1, textures, 0);
 
-        if(removeSet){
+        if (removeSet) {
             mBits.remove(textureId);
         }
     }
 
     /**
-     *  释放所有纹理显存
+     * 释放所有纹理显存
      */
     public void deleteAllBits() {
-        if(!mBits.isEmpty()){
-            for(Integer texID : mBits.keySet()){
-                if(texID.intValue() >= 0 ){
-                    deleteYokiBit(texID.intValue() , false);
+        if (!mBits.isEmpty()) {
+            for (Integer texID : mBits.keySet()) {
+                if (texID.intValue() >= 0) {
+                    deleteYokiBit(texID.intValue(), false);
                 }
             }//end for each
             mBits.clear();

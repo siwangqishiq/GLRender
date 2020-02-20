@@ -1,5 +1,7 @@
 package com.xinlan.yokirender.core;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
@@ -65,8 +67,31 @@ public interface YokiCanvas {
      */
     void drawSprite(YokiBit bit , RectF srcRect ,RectF dstRect , YokiPaint paint);
 
+    /**
+     *  绘制指定位图
+     * @param bit
+     * @param srcLeft
+     * @param srcTop
+     * @param srcWidth
+     * @param srcHeight
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
     void drawSprite(YokiBit bit , float srcLeft , float srcTop , float srcWidth , float srcHeight,
                     float x , float y , float width , float height);
+
+    /**
+     *
+     * @param content
+     * @param x
+     * @param y
+     * @param textWidth
+     * @param textHeight
+     * @param textColor
+     */
+    void drawText(final String content , float x , float y , float textWidth , float textHeight , Color textColor);
 
     /**
      *  保存堆栈上下文环境
