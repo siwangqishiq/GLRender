@@ -31,7 +31,8 @@ public class BitManager {
 
     public BitManager() {
         mTextPaint.setColor(Color.BLACK);
-        mTextPaint.setTextSize(40.0f);
+        mTextPaint.setTextSize(32.0f);
+        mTextPaint.setAntiAlias(true);
     }
 
     /**
