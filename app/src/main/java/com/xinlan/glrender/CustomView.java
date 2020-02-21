@@ -147,6 +147,11 @@ public class CustomView extends YokiView {
         testSprite7(canvas);
         testSprite8(canvas);
         testText1(canvas);
+        testText2(canvas);
+    }
+
+    private void testText2(YokiCanvas canvas) {
+        canvas.drawText("Hello World" , 100 , viewHeight - 200 , viewWidth -200 , 500 , null);
     }
 
     private void testText1(YokiCanvas canvas) {

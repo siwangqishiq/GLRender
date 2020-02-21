@@ -31,7 +31,7 @@ public class BitManager {
 
     public BitManager() {
         mTextPaint.setColor(Color.BLACK);
-        mTextPaint.setTextSize(20.0f);
+        mTextPaint.setTextSize(40.0f);
     }
 
     /**
@@ -55,10 +55,11 @@ public class BitManager {
         final Rect outRect = new Rect();
         mTextPaint.getTextBounds(text, 0, text.length(), outRect);
 
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         //todo RGBA8888没必要 先这么设置 后面优化
-        final Bitmap bit = Bitmap.createBitmap(outRect.width(), outRect.height(), Bitmap.Config.ARGB_8888);
+        final Bitmap bit = Bitmap.createBitmap(outRect.width(), (int)(fontMetrics.bottom - fontMetrics.top), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bit);
-        canvas.drawText(text, 0, 0, mTextPaint);
+        canvas.drawText(text, 0, -fontMetrics.ascent, mTextPaint);
         return loadYokiBit(bit, true);
     }
 
